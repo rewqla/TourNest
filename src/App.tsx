@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Layout, Image, Row, Col, Flex, Typography } from "antd";
+import logo from "./assets/point-vector.png";
+const { Content, Footer, Header } = Layout;
+const { Title } = Typography;
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Layout className="layout">
+      <Header className="header">
+        <Row justify="space-between" align="middle">
+          <Col>
+            <Flex align="center" gap={10}>
+              <span>
+                <Image src={logo} preview={false} height={30} />
+              </span>
+              <Title level={4} style={{ marginTop: "0.5rem" }}>
+                TOURNEST
+              </Title>
+            </Flex>
+          </Col>
+          <Flex align="center" gap={15}>
+            <Title level={4} style={{ marginTop: "0" }}>
+              Home
+            </Title>
+            <Title level={4} style={{ marginTop: "0" }}>
+              Map & direction
+            </Title>
+            <Title level={4} style={{ marginTop: "0" }}>
+              Gallery
+            </Title>
+            <Title level={4} style={{ marginTop: "0" }}>
+              Account
+            </Title>
+          </Flex>
+        </Row>
+      </Header>
+      <Content className="content">Content</Content>
+      <Footer className="footer">Footer</Footer>
+    </Layout>
+  );
 }
 
-export default App
+export default App;
