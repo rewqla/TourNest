@@ -1,7 +1,7 @@
 import { Layout, Image, Row, Col, Flex, Typography } from "antd";
 import logo from "./assets/point-vector.png";
 const { Content, Footer, Header } = Layout;
-const { Title } = Typography;
+const { Title, Text, Link } = Typography;
 
 function App() {
   return (
@@ -35,7 +35,40 @@ function App() {
         </Row>
       </Header>
       <Content className="content">Content</Content>
-      <Footer className="footer">Footer</Footer>
+      <Footer className="footer">
+        <Row justify="space-between" align="middle">
+          <Col span={3}>
+            <Title level={4} style={{ marginBottom: 10 }}>
+              TourNest
+            </Title>
+            <Text>Less stress more feelings. Be free with us</Text>
+          </Col>
+          <Col span={3} style={{ paddingBottom: "1vh" }}>
+            <Title level={4} style={{ marginBottom: 10 }}>
+              Quick Links
+            </Title>
+            <Flex vertical>
+              <Col>
+                <Text>
+                  <Link href="https://ant.design" target="_blank">
+                    About Us
+                  </Link>
+                </Text>
+              </Col>
+              <Col>
+                <Link href="https://ant.design" target="_blank">
+                  Contact
+                </Link>
+              </Col>
+              <Col>
+                <Link href="https://ant.design" target="_blank">
+                  Privacy Policy
+                </Link>
+              </Col>
+            </Flex>
+          </Col>
+        </Row>
+      </Footer>
     </Layout>
   );
 }
