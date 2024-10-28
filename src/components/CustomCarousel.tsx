@@ -1,7 +1,6 @@
 import { Carousel, Typography } from "antd";
 const { Text, Title } = Typography;
 
-import publicGarden from "../assets/Boston-Public-Garden.webp";
 import cityBuilding from "../assets/city-buildings.jpg";
 import japanese from "../assets/japancitiesmain2023.jpg";
 import futurism from "../assets/futurism.jpg";
@@ -18,17 +17,7 @@ const CustomCarousel = () => {
             Explore city's hidden gems!
           </Text>
         </div>
-        <Carousel draggable arrows infinite={false}>
-          <div>
-            <div
-              className="carousel-slide"
-              style={{
-                backgroundImage: `url(${publicGarden})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            />
-          </div>
+        <Carousel draggable arrows infinite>
           <div>
             <div
               className="carousel-slide"

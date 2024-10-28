@@ -9,30 +9,42 @@ const CustomFooter = () => {
     <Footer className="footer">
       <Row justify="space-between" align="middle">
         <Col span={4}>
-          <Title level={4} style={{ marginBottom: 10 }}>
+          <Title level={2} style={{ marginBottom: 10 }}>
             TourNest
           </Title>
-          <Text>Less stress more feelings. Be free with us</Text>
+          <Text className="footer-text">
+            Less stress more feelings. Be free with us
+          </Text>
         </Col>
-        <Col span={4} style={{ paddingBottom: "1vh" }}>
+        <Col span={4} style={{ paddingBottom: "1vh", textAlign: "right" }}>
           <Title level={4} style={{ marginBottom: 10 }}>
             Quick Links
           </Title>
           <Flex vertical>
             <Col>
-              <Text>
-                <Link href="https://ant.design" target="_blank">
-                  About Us
-                </Link>
-              </Text>
+              <Link
+                className="footer-text"
+                href="https://ant.design"
+                target="_blank"
+              >
+                About Us
+              </Link>
             </Col>
             <Col>
-              <Link href="https://ant.design" target="_blank">
+              <Link
+                className="footer-text"
+                href="https://ant.design"
+                target="_blank"
+              >
                 Contact
               </Link>
             </Col>
             <Col>
-              <Link href="https://ant.design" target="_blank">
+              <Link
+                className="footer-text"
+                href="https://ant.design"
+                target="_blank"
+              >
                 Privacy Policy
               </Link>
             </Col>
