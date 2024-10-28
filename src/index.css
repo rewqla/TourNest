@@ -21,6 +21,33 @@ body {
   height: auto;
 }
 
+.content {
+  padding: 10px;
+  height: 100%;
+  margin: 24px auto;
+  max-width: 1600px;
+  width: 100%;
+}
+
+.carousel-container {
+  position: relative;
+  width: 100%;
+}
+
+.carousel-text {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  z-index: 10;
+  max-width: 25vw;
+}
+
+.carousel-slide {
+  height: 500px;
+  background-size: cover;
+  background-position: center;
+}
+
 .footer {
   border-top: 2px solid #ccc;
   background: #fff;
