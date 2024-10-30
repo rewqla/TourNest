@@ -19,16 +19,16 @@ const CustomHeader = () => {
           </Flex>
         </Col>
         <Flex align="center" gap={15}>
-          <Title level={4} style={{ marginTop: "0" }}>
+          <Title level={4} style={{ marginTop: "0", color: "#4A4A4A" }}>
             Home
           </Title>
-          <Title level={4} style={{ marginTop: "0" }}>
+          <Title level={4} style={{ marginTop: "0", color: "#4A4A4A" }}>
+            Discover
+          </Title>
+          <Title level={4} style={{ marginTop: "0", color: "#4A4A4A" }}>
             Map & Direction
           </Title>
-          <Title level={4} style={{ marginTop: "0" }}>
-            Gallery
-          </Title>
-          <Title level={4} style={{ marginTop: "0" }}>
+          <Title level={4} style={{ marginTop: "0", color: "#4A4A4A" }}>
             Account
           </Title>
         </Flex>

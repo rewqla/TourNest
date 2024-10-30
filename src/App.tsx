@@ -1,8 +1,7 @@
-import { Layout, Row } from "antd";
-import CardsContainer from "./components/CardsContainer";
-import CustomCarousel from "./components/CustomCarousel";
+import { Layout } from "antd";
 import CustomFooter from "./components/CustomFooter";
 import CustomHeader from "./components/CustomHeader";
+import { Router } from "./routes/Routes";
 const { Content } = Layout;
 
 function App() {
@@ -10,15 +9,7 @@ function App() {
     <Layout className="layout">
       <CustomHeader />
       <Content className="content">
-        <Row
-          justify="center"
-          style={{
-            padding: "24px",
-          }}
-        >
-          <CustomCarousel />
-          <CardsContainer />
-        </Row>
+        <Router />
       </Content>
       <CustomFooter />
     </Layout>
