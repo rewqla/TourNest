@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "../pages/HomePage";
+import NotFound from "../pages/NotFound";
 import { HOME_ROUTE } from "./routeConstants";
 
 export const Router = () => {
@@ -7,6 +8,10 @@ export const Router = () => {
     {
       path: HOME_ROUTE,
       element: <HomePage />,
+    },
+    {
+      path: "*",
+      element: <NotFound />,
     },
   ]);
 
