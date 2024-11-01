@@ -1,6 +1,6 @@
 import { Form, Input, Checkbox, Button, Typography } from "antd";
-import { Link } from "react-router-dom";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
+import Link from "antd/es/typography/Link";
 const { Text, Title } = Typography;
 
 const SignInForm = () => {
@@ -53,7 +53,8 @@ const SignInForm = () => {
           Log in
         </Button>
         <div style={{ marginTop: "20px" }}>
-          <Text>Don't have an account?</Text> <Link href="">Sign up now</Link>
+          <Text>Don't have an account?</Text>
+          <Link href="/sign-up">Sign up now</Link>
         </div>
       </Form.Item>
     </Form>

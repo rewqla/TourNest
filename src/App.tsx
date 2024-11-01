@@ -1,7 +1,7 @@
 import { Layout } from "antd";
+import { Outlet } from "react-router-dom";
 import CustomFooter from "./components/CustomFooter";
 import CustomHeader from "./components/CustomHeader";
-import { Router } from "./routes/Routes";
 const { Content } = Layout;
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
     <Layout className="layout">
       <CustomHeader />
       <Content className="content">
-        <Router />
+        <Outlet />
       </Content>
       <CustomFooter />
     </Layout>
