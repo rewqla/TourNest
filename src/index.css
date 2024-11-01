@@ -17,7 +17,7 @@ body {
 
 .header {
   padding: 0.5vh 2vw;
-  border-bottom: 2px solid #ccc;
+  border-bottom: 2px solid #ffb766;
   background: #fff;
   height: auto;
 }
@@ -51,8 +51,8 @@ body {
 }
 
 .footer {
-  border-top: 2px solid #ccc;
-  background: #e4e4e4;
+  border-top: 2px solid #ffb766;
+  background: #fff;
 }
 
 .footer-text {
