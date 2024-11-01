@@ -10,7 +10,7 @@ const CustomFooter = () => {
       <Row justify="space-between" align="middle">
         <Col span={4}>
           <Title level={2} style={{ marginBottom: 10 }}>
-            TourNest
+            TOURNEST
           </Title>
           <Text className="footer-text">
             Less stress more feelings. Be free with us
