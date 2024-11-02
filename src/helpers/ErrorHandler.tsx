@@ -2,6 +2,7 @@ import axios from "axios";
 import { openNotification } from "../context/openNotification";
 
 export const handleError = (error: any) => {
+  console.log(error);
   if (axios.isAxiosError(error)) {
     var err = error.response;
     if (Array.isArray(err?.data.errors)) {
@@ -15,8 +16,7 @@ export const handleError = (error: any) => {
     } else if (err?.data) {
       openNotification("error", err.data);
     } else if (err?.status == 401) {
-      openNotification("error", "Please login");
-      window.history.pushState({}, "LoginPage", "/login");
+      openNotification("error", "Wrong login or password");
     } else if (err) {
       openNotification("error", err?.data);
     }

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { handleError } from "../helpers/ErrorHandler";
 import { UserProfileToken } from "../models/user/UserProfileToken";
 
 const api = "https://localhost:7188/api/";
@@ -9,7 +10,9 @@ export const loginAPI = async (username: string, password: string) => {
       password: password,
     });
     return data;
-  } catch (error) {}
+  } catch (error) {
+    handleError(error);
+  }
 };
 
 export const registerAPI = async (
@@ -28,5 +31,7 @@ export const registerAPI = async (
       password: password,
     });
     return data;
-  } catch (error) {}
+  } catch (error) {
+    handleError(error);
+  }
 };
