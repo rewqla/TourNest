@@ -53,7 +53,7 @@ const SignInForm = () => {
           Log in
         </Button>
         <div style={{ marginTop: "20px" }}>
-          <Text>Don't have an account?</Text>
+          <Text>Don't have an account?</Text>{" "}
           <Link href="/sign-up">Sign up now</Link>
         </div>
       </Form.Item>
