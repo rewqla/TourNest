@@ -2,7 +2,6 @@ import axios from "axios";
 import { openNotification } from "../context/openNotification";
 
 export const handleError = (error: any) => {
-  console.log(error);
   if (axios.isAxiosError(error)) {
     var err = error.response;
     if (Array.isArray(err?.data.errors)) {

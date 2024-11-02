@@ -1,11 +1,30 @@
 import { Form, Input, Checkbox, Button, Typography } from "antd";
 import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 import Link from "antd/es/typography/Link";
+import { useDataContext } from "../context/useAuth";
 const { Text, Title } = Typography;
 
+declare interface RegisterInputs {
+  email: string;
+  userName: string;
+  fullName: string;
+  password: string;
+}
+
 const SignUpForm = () => {
-  const onFinish = (values: any) => {
-    console.log(values);
+  const { registerUser } = useDataContext();
+
+  const onFinish = (values: RegisterInputs) => {
+    const [firstName, ...remaining] = values.fullName.trim().split(" ");
+    const lastName = remaining.join(" ");
+
+    registerUser(
+      firstName,
+      lastName,
+      values.email,
+      values.userName,
+      values.password
+    );
   };
 
   return (
@@ -28,6 +47,17 @@ const SignUpForm = () => {
         ]}
       >
         <Input prefix={<UserOutlined />} placeholder="Full Name" />
+      </Form.Item>
+      <Form.Item
+        name="userName"
+        rules={[
+          {
+            required: true,
+            message: "Please input your Username!",
+          },
+        ]}
+      >
+        <Input prefix={<UserOutlined />} placeholder="Username" />
       </Form.Item>
       <Form.Item
         name="email"
