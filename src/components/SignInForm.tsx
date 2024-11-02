@@ -1,11 +1,19 @@
 import { Form, Input, Checkbox, Button, Typography } from "antd";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import Link from "antd/es/typography/Link";
-const { Text, Title } = Typography;
+import { useDataContext } from "../context/useAuth";
+const { Text } = Typography;
+
+declare interface LoginInputs {
+  userName: string;
+  password: string;
+}
 
 const SignInForm = () => {
-  const onFinish = (values: any) => {
-    console.log(values);
+  const { loginUser } = useDataContext();
+
+  const onFinish = (values: LoginInputs) => {
+    loginUser(values.userName, values.password);
   };
 
   return (
@@ -19,16 +27,15 @@ const SignInForm = () => {
       requiredMark="optional"
     >
       <Form.Item
-        name="email"
+        name="userName"
         rules={[
           {
-            type: "email",
             required: true,
-            message: "Please input your Email!",
+            message: "Please input your username!",
           },
         ]}
       >
-        <Input prefix={<MailOutlined />} placeholder="Email" />
+        <Input prefix={<MailOutlined />} placeholder="username" />
       </Form.Item>
       <Form.Item
         name="password"
