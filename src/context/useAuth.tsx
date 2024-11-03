@@ -42,7 +42,6 @@ const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const navigate = useNavigate();
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<UserProfile | null>(null);
-  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     const user = localStorage.getItem("user");
@@ -53,7 +52,6 @@ const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       setToken(token);
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
     }
-    setIsReady(true);
   }, []);
 
   const registerUser = async (
