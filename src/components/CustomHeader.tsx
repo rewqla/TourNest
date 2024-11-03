@@ -8,7 +8,7 @@ const { Title, Text } = Typography;
 
 const CustomHeader = () => {
   const navigate = useNavigate();
-  const { user, isLoggedIn } = useAuthContext();
+  const { user, isLoggedIn, logout } = useAuthContext();
 
   const userItems: MenuProps["items"] = [
     {
@@ -23,7 +23,7 @@ const CustomHeader = () => {
       type: "divider",
     },
     {
-      label: <Text onClick={() => navigate("/discover")}>Logout</Text>,
+      label: <Text onClick={logout}>Logout</Text>,
       key: "3",
     },
   ];
