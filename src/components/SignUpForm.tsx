@@ -1,7 +1,7 @@
 import { Form, Input, Checkbox, Button, Typography } from "antd";
 import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 import Link from "antd/es/typography/Link";
-import { useDataContext } from "../context/useAuth";
+import { useAuthContext } from "../context/useAuth";
 const { Text, Title } = Typography;
 
 declare interface RegisterInputs {
@@ -12,7 +12,7 @@ declare interface RegisterInputs {
 }
 
 const SignUpForm = () => {
-  const { registerUser } = useDataContext();
+  const { registerUser } = useAuthContext();
 
   const onFinish = (values: RegisterInputs) => {
     const [firstName, ...remaining] = values.fullName.trim().split(" ");

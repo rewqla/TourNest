@@ -28,11 +28,11 @@ type UserContextType = {
 
 export const UserContext = createContext<UserContextType | null>(null);
 
-export const useDataContext = () => {
+export const useAuthContext = () => {
   const context = useContext(UserContext);
 
   if (!context) {
-    throw new Error("useDataContext has to be used within main.tsx");
+    throw new Error("useAuthContext has to be used within main.tsx");
   }
 
   return context;

@@ -1,12 +1,32 @@
 // src/components/Header.js
-import { Image, Row, Col, Typography, Flex } from "antd";
+import { Image, Row, Col, Typography, Flex, MenuProps, Dropdown } from "antd";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/point-vector.png";
+import { useAuthContext } from "../context/useAuth";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const CustomHeader = () => {
   const navigate = useNavigate();
+  const { user, isLoggedIn } = useAuthContext();
+
+  const userItems: MenuProps["items"] = [
+    {
+      label: <Text onClick={() => navigate("/profile")}>Profile</Text>,
+      key: "0",
+    },
+    {
+      label: <Text onClick={() => navigate("/history")}>Travel history</Text>,
+      key: "1",
+    },
+    {
+      type: "divider",
+    },
+    {
+      label: <Text onClick={() => navigate("/discover")}>Logout</Text>,
+      key: "3",
+    },
+  ];
 
   return (
     <header className="header">
@@ -36,13 +56,28 @@ const CustomHeader = () => {
           >
             Map & Direction
           </Title>
-          <Title
-            onClick={() => navigate("/sign-in")}
-            level={4}
-            style={{ marginTop: "0", color: "#4A4A4A" }}
-          >
-            Account
-          </Title>
+          {isLoggedIn() ? (
+            <Dropdown menu={{ items: userItems }} placement="bottomRight">
+              <Title
+                level={4}
+                style={{
+                  marginTop: "0",
+                  color: "#496d96",
+                  cursor: "pointer",
+                }}
+              >
+                Hi, {user?.email}
+              </Title>
+            </Dropdown>
+          ) : (
+            <Title
+              onClick={() => navigate("/sign-in")}
+              level={4}
+              style={{ marginTop: "0", color: "#4A4A4A" }}
+            >
+              Account
+            </Title>
+          )}
         </Flex>
       </Row>
     </header>

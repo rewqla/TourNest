@@ -1,7 +1,7 @@
 import { Form, Input, Checkbox, Button, Typography } from "antd";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import Link from "antd/es/typography/Link";
-import { useDataContext } from "../context/useAuth";
+import { useAuthContext } from "../context/useAuth";
 const { Text } = Typography;
 
 declare interface LoginInputs {
@@ -10,7 +10,7 @@ declare interface LoginInputs {
 }
 
 const SignInForm = () => {
-  const { loginUser } = useDataContext();
+  const { loginUser } = useAuthContext();
 
   const onFinish = (values: LoginInputs) => {
     loginUser(values.userName, values.password);
