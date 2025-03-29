@@ -32,7 +32,12 @@ const CustomHeader = () => {
     <header className="header">
       <Row justify="space-between" align="middle">
         <Col>
-          <Flex onClick={() => navigate("/")} align="center" gap={10}>
+          <Flex
+            onClick={() => navigate("/")}
+            align="center"
+            style={{ cursor: "pointer" }}
+            gap={10}
+          >
             <span>
               <Image src={logo} preview={false} height={30} />
             </span>
@@ -45,14 +50,14 @@ const CustomHeader = () => {
           <Title
             onClick={() => navigate("/discover")}
             level={4}
-            style={{ marginTop: "0", color: "#4A4A4A" }}
+            style={{ marginTop: "0", color: "#4A4A4A", cursor: "pointer" }}
           >
             Discover
           </Title>
           <Title
             onClick={() => navigate("/direction")}
             level={4}
-            style={{ marginTop: "0", color: "#4A4A4A" }}
+            style={{ marginTop: "0", color: "#4A4A4A", cursor: "pointer" }}
           >
             Map & Direction
           </Title>
@@ -73,7 +78,7 @@ const CustomHeader = () => {
             <Title
               onClick={() => navigate("/sign-in")}
               level={4}
-              style={{ marginTop: "0", color: "#4A4A4A" }}
+              style={{ marginTop: "0", color: "#4A4A4A", cursor: "pointer" }}
             >
               Account
             </Title>

@@ -1,9 +1,9 @@
 import { Carousel, Typography } from "antd";
-const { Text, Title } = Typography;
+const { Title } = Typography;
 
 import cityBuilding from "../assets/city-buildings.jpg";
-import japanese from "../assets/japancitiesmain2023.jpg";
-import futurism from "../assets/futurism.jpg";
+import kyev from "../assets/10-Best-Cities-to-Visit-in-Ukraine-ETIC-Hotels.jpg";
+import amsterdam from "../assets/Netherlands_Amsterdam_SunRise.jpg";
 
 const CustomCarousel = () => {
   return (
@@ -11,13 +11,10 @@ const CustomCarousel = () => {
       <div className="carousel-container">
         <div className="carousel-text">
           <Title italic level={1} style={{ color: "#ffe600" }}>
-            Discover the city with us
+            Discover with us
           </Title>
-          <Text italic strong style={{ fontSize: "1.5rem", color: "#4a4a4a" }}>
-            Explore city's hidden gems!
-          </Text>
         </div>
-        <Carousel draggable arrows infinite>
+        <Carousel autoplay={true} autoplaySpeed={5000} arrows infinite>
           <div>
             <div
               className="carousel-slide"
@@ -30,7 +27,7 @@ const CustomCarousel = () => {
             <div
               className="carousel-slide"
               style={{
-                backgroundImage: `url(${japanese})`,
+                backgroundImage: `url(${kyev})`,
               }}
             />
           </div>
@@ -38,7 +35,7 @@ const CustomCarousel = () => {
             <div
               className="carousel-slide"
               style={{
-                backgroundImage: `url(${futurism})`,
+                backgroundImage: `url(${amsterdam})`,
               }}
             />
           </div>

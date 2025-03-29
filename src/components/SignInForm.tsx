@@ -52,9 +52,6 @@ const SignInForm = () => {
           placeholder="Password"
         />
       </Form.Item>
-      <Form.Item>
-        <a href="">Forgot your password?</a>
-      </Form.Item>
       <Form.Item style={{ marginBottom: "0px" }}>
         <Button block="true" type="primary" htmlType="submit">
           Log in
