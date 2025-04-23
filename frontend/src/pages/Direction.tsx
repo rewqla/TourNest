@@ -50,8 +50,8 @@ const DirectionPage = () => {
       container: node,
       accessToken: import.meta.env.VITE_MAPBOX_API_KEY,
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [-74.5, 40],
-      zoom: 9,
+      center: [23.994833, 49.83941],
+      zoom: 12,
     });
 
     setMap(mapboxMap);
@@ -63,17 +63,11 @@ const DirectionPage = () => {
 
   return (
     <Layout className="min-h-screen">
-      <Header className="bg-white shadow flex items-center px-6">
-        <Title level={3} className="m-0">
-          Route Planner
-        </Title>
-      </Header>
-
       <Content className="p-6">
         <Row gutter={[16, 16]}>
           <Col xs={24} lg={18}>
             <Card className="h-full">
-              <div ref={mapNode} style={{ height: "100vh", width: "100%" }} />
+              <div ref={mapNode} style={{ height: "75vh", width: "100%" }} />
             </Card>
           </Col>
         </Row>
