@@ -9,7 +9,4 @@ public class Category
 
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
-
-    [JsonPropertyName("primary")]
-    public bool Primary { get; set; }
 }
