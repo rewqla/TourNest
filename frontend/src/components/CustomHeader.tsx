@@ -71,7 +71,7 @@ const CustomHeader = () => {
                   cursor: "pointer",
                 }}
               >
-                Hi, {user?.email}
+                Your space
               </Title>
             </Dropdown>
           ) : (

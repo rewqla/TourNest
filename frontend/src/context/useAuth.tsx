@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   createContext,
   ReactNode,
@@ -8,7 +7,6 @@ import {
 } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserProfile } from "../models/user/UserProfile";
-import { registerAPI, loginAPI } from "../services/AuthService";
 import { openNotification } from "./openNotification";
 
 type UserContextType = {
@@ -50,54 +48,83 @@ const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     if (user && token) {
       setUser(JSON.parse(user));
       setToken(token);
-      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
     }
   }, []);
 
-  const registerUser = async (
+  const mockUsers: any[] = [
+    {
+      firstName: "John",
+      lastName: "Doe",
+      email: "john.doe@example.com",
+      username: "johndoe",
+      password: "password123",
+    },
+    {
+      firstName: "Jane",
+      lastName: "Smith",
+      email: "jane.smith@example.com",
+      username: "janesmith",
+      password: "mypassword",
+    },
+  ];
+
+  const registerUser = (
     firstName: string,
     lastName: string,
     email: string,
     username: string,
     password: string
   ) => {
-    await registerAPI(firstName, lastName, email, username, password)
-      .then((res) => {
-        if (res) {
-          localStorage.setItem("token", res?.data.token);
-          const userObj = {
-            email: res?.data.email,
-          };
-          localStorage.setItem("user", JSON.stringify(userObj));
+    const isDuplicate = mockUsers.some(
+      (u) => u.email === email || u.username === username
+    );
 
-          setToken(res?.data.token!);
-          setUser(userObj!);
+    if (isDuplicate) {
+      openNotification("error", "User already exists!");
+      return;
+    }
 
-          openNotification("success", "Register Success!");
-          navigate("/search");
-        }
-      })
-      .catch((e) => openNotification("error", "Server error occured"));
+    const newUser = { firstName, lastName, email, username, password };
+    mockUsers.push(newUser);
+
+    // Simulate storing data in localStorage
+    const token = "mockToken123";
+    localStorage.setItem("token", token);
+    localStorage.setItem(
+      "user",
+      JSON.stringify({ email: newUser.email, username: newUser.username })
+    );
+
+    setToken(token);
+    setUser({ email: newUser.email, username: newUser.username });
+
+    openNotification("success", "Register Success!");
+    navigate("/search");
   };
 
-  const loginUser = async (username: string, password: string) => {
-    await loginAPI(username, password)
-      .then((res) => {
-        if (res) {
-          localStorage.setItem("token", res?.data.token);
-          const userObj = {
-            email: res?.data.email,
-          };
-          localStorage.setItem("user", JSON.stringify(userObj));
+  const loginUser = (username: string, password: string) => {
+    const user = mockUsers.find(
+      (u) => u.username === username && u.password === password
+    );
 
-          setToken(res?.data.token!);
-          setUser(userObj!);
+    if (!user) {
+      openNotification("error", "Invalid username or password!");
+      return;
+    }
 
-          openNotification("success", "Login Success!");
-          navigate("/search");
-        }
-      })
-      .catch((e) => openNotification("error", "Server error occured"));
+    // Simulate setting token in localStorage
+    const token = "mockToken123";
+    localStorage.setItem("token", token);
+    localStorage.setItem(
+      "user",
+      JSON.stringify({ email: user.email, username: user.username })
+    );
+
+    setToken(token);
+    setUser({ email: user.email, username: user.username });
+
+    openNotification("success", "Login Success!");
+    navigate("/search");
   };
 
   const isLoggedIn = () => {
@@ -109,7 +136,7 @@ const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     localStorage.removeItem("user");
 
     setUser(null);
-    setToken("");
+    setToken(null);
     navigate("/");
   };
 
