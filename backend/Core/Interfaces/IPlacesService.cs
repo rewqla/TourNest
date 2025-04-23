@@ -1,13 +1,13 @@
-﻿using ExternalApis.Models;
+﻿using Contract;
+using ExternalApis.Models;
 
 namespace Core.Interfaces;
 
 public interface IPlacesService
 {
-    Task<PlacesResponse> GetNearbyPlacesAsync(
-        double latitude, 
-        double longitude, 
-        string categories, 
-        int radius = 1000, 
-        int limit = 10);
+    Task<List<Place>> FindPlacesNearRouteAsync(
+        Location startLocation,
+        Location endLocation,
+        List<string> categories,
+        int maxDistance = 2000);
 }
