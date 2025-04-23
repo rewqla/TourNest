@@ -1,0 +1,57 @@
+﻿### GET direction from start to end with criteria
+GET {{baseAddress}}/places/direction
+Content-Type: application/json
+
+{
+  "startLocation": {
+    "lat": "52.5170365",
+    "lng": "13.3888599"
+  },
+  "endLocation": {
+    "lat": "52.527362",
+    "lng": "13.415942"
+  },
+  "categories": ["cafe", "park"],
+  "maxDetourDistance": 1000,
+  "maxPlacesToVisit": 2
+}
+
+###
+
+GET {{baseAddress}}/places/direction
+Content-Type: application/json
+
+{
+  "startLocation": {
+    "lat": "49.839410",
+    "lng": "23.994833"
+  },
+  "endLocation": {
+    "lat": "49.845184",
+    "lng": "24.037140"
+  },
+  "categories": ["cafe", "park"],
+  "maxDetourDistance": 1000,
+  "maxPlacesToVisit": 4
+}
+
+###
+
+GET {{baseAddress}}/places/direction
+Content-Type: application/json
+
+{
+  "startLocation": {
+    "lat": "49.839410",
+    "lng": "23.994833"
+  },
+  "endLocation": {
+    "lat": "49.845184",
+    "lng": "24.037140"
+  },
+  "categories": ["atm", "supermarket","cafe", "aquarium"],
+  "maxDetourDistance": 1000,
+  "maxPlacesToVisit": 6
+}
+
+###
