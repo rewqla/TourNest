@@ -28,7 +28,8 @@ const categoryOptions = [
   { value: "restaurant", label: "Restaurants" },
   { value: "cafe", label: "Cafes" },
   { value: "atm", label: "ATM" },
-  { value: "tourist_attraction", label: "Tourist Attractions" },
+  { value: "theatre", label: "Theatre" },
+  { value: "hotel", label: "Hotel" },
   { value: "museum", label: "Museums" },
   { value: "park", label: "Parks" },
   { value: "shopping", label: "Shopping" },
@@ -37,8 +38,8 @@ const categoryOptions = [
 const DirectionPage = () => {
   const [map, setMap] = React.useState<mapboxgl.Map>();
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [distance, setDistance] = useState("—");
-  const [duration, setDuration] = useState("—");
+  const [distance, setDistance] = useState(0);
+  const [duration, setDuration] = useState(0);
 
   const [startPoint, setStartPoint] = useState<[number, number] | null>(null);
   const [endPoint, setEndPoint] = useState<[number, number] | null>(null);
@@ -100,6 +101,55 @@ const DirectionPage = () => {
   useEffect(() => {
     pointSelectionRef.current = pointSelection;
   }, [pointSelection]);
+
+  const handleGenerateRoute = async () => {
+    if (!startPoint || !endPoint) {
+      console.warn("Start or end point not set");
+      return;
+    }
+
+    const directionRequest = {
+      startLocation: {
+        lat: startPoint[1].toString(),
+        lng: startPoint[0].toString(),
+      },
+      endLocation: {
+        lat: endPoint[1].toString(),
+        lng: endPoint[0].toString(),
+      },
+      categories: selectedCategories,
+      maxDetourDistance: 2000,
+      maxPlacesToVisit: 4,
+    };
+
+    try {
+      const response = await fetch("https://localhost:7118/places/direction", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(directionRequest),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        console.error("API Error:", error);
+        return;
+      }
+
+      const result = await response.json();
+      console.log("Route data:", result);
+
+      setDistance(result.totalDistance / 1000);
+
+      setDuration(result.estimatedTime);
+
+      // TODO: display result on map
+      // TODO: add validation
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
 
   return (
     <Layout className="min-h-screen">
@@ -169,14 +219,20 @@ const DirectionPage = () => {
                 <div>
                   <Text strong>Estimated Distance:</Text>
                   <div>
-                    <Text>{distance} km</Text>
+                    <Text>
+                      {distance !== 0 ? `${distance.toFixed(2)} km` : "—"}
+                    </Text>
                   </div>
                 </div>
 
                 <div>
                   <Text strong>Estimated Time:</Text>
                   <div>
-                    <Text>{duration}</Text>
+                    <Text>
+                      {duration !== 0
+                        ? `${Math.floor(duration / 60)} min`
+                        : "—"}
+                    </Text>
                   </div>
                 </div>
 
@@ -185,6 +241,7 @@ const DirectionPage = () => {
                   icon={<CarOutlined />}
                   block
                   size="large"
+                  onClick={handleGenerateRoute}
                 >
                   Generate Route
                 </Button>
