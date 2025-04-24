@@ -242,6 +242,9 @@ const DirectionPage = () => {
                   block
                   size="large"
                   onClick={handleGenerateRoute}
+                  disabled={
+                    !startPoint || !endPoint || selectedCategories.length === 0
+                  }
                 >
                   Generate Route
                 </Button>
