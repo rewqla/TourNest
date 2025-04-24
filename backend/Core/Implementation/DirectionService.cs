@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using Contract;
 using Core.Interfaces;
+using Core.Mapping;
 using Core.Models;
 using ExternalApis.Models;
 using Microsoft.Extensions.Logging;
@@ -45,7 +46,7 @@ public class DirectionService : IDirectionService
             startLocation, endLocation, categories, maxDetourDistance);
 
         // Step 3: Select top places to visit based on ratings and distance from route
-        var selectedPlaces = SelectBestPlaces(placesNearRoute, maxPlacesToVisit);
+        var selectedPlaces = SelectBestPlaces(placesNearRoute, maxPlacesToVisit, categories);
 
         // Step 4: Create optimal route with waypoints
         var routeWithWaypoints = await CreateOptimalRouteWithWaypoints(
@@ -61,35 +62,59 @@ public class DirectionService : IDirectionService
         };
     }
 
-    private List<Place> SelectBestPlaces(List<Place> places, int maxPlaces)
+    private List<Place> SelectBestPlaces(List<Place> places, int maxPlaces, List<string> categories)
     {
-        // Get all unique category IDs from all places
-        var categoryGroups = places
-            .SelectMany(p => p.Categories)
-            .Select(c => c.Id.Substring(0, 1))
+        var result = new List<Place>();
+
+        var categoryToNumber = new Dictionary<string, int>
+        {
+            { "restaurant", 1 },
+            { "cafe", 1 },
+            { "atm", 7 },
+            { "theatre", 2 },
+            { "hotel", 5 },
+            { "museum", 3 },
+            { "park", 5 },
+            { "shopping", 6 }
+        };
+
+        var selectedCategoryNumbers = categories
+            .Where(c => categoryToNumber.ContainsKey(c))
+            .Select(c => categoryToNumber[c])
             .Distinct()
             .ToList();
 
-        var result = new List<Place>();
+        // Get places by category number (first digit of category ID)
+        var placesByCategory = places
+            .GroupBy(p => p.Categories
+                .Where(c => selectedCategoryNumbers.Contains(int.Parse(c.Id.Substring(0, 1))))
+                .Select(c => int.Parse(c.Id.Substring(0, 1)))
+                .FirstOrDefault())
+            .Where(group => group.Key != 0) // Exclude groups with no valid category number
+            .ToList();
 
-        // For each category, select the best place (if not already selected)
-        foreach (var categoryPrefix in categoryGroups)
+        // For each category number, select the best place
+        foreach (var categoryNumber in selectedCategoryNumbers)
         {
             // Skip if we've already reached maxPlaces
             if (result.Count >= maxPlaces)
                 break;
 
-            // Find places with this category that aren't already selected
-            var placesWithCategory = places
-                .Where(p => p.Categories.Any(c => c.Id.StartsWith(categoryPrefix)) && !result.Contains(p))
+            // Get places of this category
+            var placesForCategory = placesByCategory
+                .FirstOrDefault(g => g.Key == categoryNumber)?
                 .OrderByDescending(p => p.Rating)
-                .ThenBy(p => p.Distance);
+                .ThenBy(p => p.Distance)
+                .ToList();
 
-            var bestPlaceForCategory = placesWithCategory.FirstOrDefault();
-
-            if (bestPlaceForCategory != null)
+            // Select the best place for this category (if available)
+            if (placesForCategory != null && placesForCategory.Any())
             {
-                result.Add(bestPlaceForCategory);
+                var bestPlaceForCategory = placesForCategory.First();
+                if (!result.Contains(bestPlaceForCategory))
+                {
+                    result.Add(bestPlaceForCategory);
+                }
             }
         }
 
@@ -120,30 +145,56 @@ public class DirectionService : IDirectionService
 
     private List<Location> OptimizeWaypointOrder(Location start, Location end, List<Location> waypoints)
     {
-        var unvisited = new List<Location>(waypoints);
-        var current = start;
-        var route = new List<Location>();
+        // Add start and end to the list of points
+        var locations = new List<Location> { start };
+        locations.AddRange(waypoints);
+        locations.Add(end);
 
-        while (unvisited.Any())
+// Generate all permutations of the waypoints (excluding start and end)
+        var waypointPermutations = GetPermutations(waypoints, waypoints.Count).ToList();
+
+        var optimalRoute = new List<Location>();
+        double shortestDistance = double.MaxValue;
+
+// Iterate through all permutations to find the optimal route
+        foreach (var permutation in waypointPermutations)
         {
-            var nearest = unvisited
-                .OrderBy(loc => CalculateDistance(current, loc))
-                .First();
+            // Add start, then the current permutation, then the end
+            var route = new List<Location> { start };
+            route.AddRange(permutation);
+            route.Add(end);
 
-            route.Add(nearest);
-            current = nearest;
-            unvisited.Remove(nearest);
+            // Calculate the total distance for this route
+            double totalDistance = CalculateTotalDistance(route);
+
+            // If this route is shorter than the previous best, update optimalRoute
+            if (totalDistance < shortestDistance)
+            {
+                shortestDistance = totalDistance;
+                optimalRoute = new List<Location>(route);
+            }
         }
 
-        // Крок 2: Оптимізація порядку точок за допомогою 2-opt
-        // route = ApplyTwoOptWithFixedEnds(start, end, route);
+        return optimalRoute;
+    }
+    
+    private double CalculateTotalDistance(List<Location> route)
+    {
+        double totalDistance = 0;
+        for (int i = 0; i < route.Count - 1; i++)
+        {
+            totalDistance += CalculateDistance(route[i], route[i + 1]);
+        }
+        return totalDistance;
+    }
 
-        // Крок 3: Додати початок і кінець
-        var finalRoute = new List<Location> { start };
-        finalRoute.AddRange(route);
-        finalRoute.Add(end);
+    private static IEnumerable<IEnumerable<T>> GetPermutations<T>(List<T> list, int length)
+    {
+        if (length == 1) return list.Select(t => new T[] { t });
 
-        return finalRoute;
+        return GetPermutations(list, length - 1)
+            .SelectMany(t => list.Where(e => !t.Contains(e)),
+                (t, e) => t.Concat(new T[] { e }));
     }
 
     private List<Location> ApplyTwoOptWithFixedEnds(Location start, Location end, List<Location> route)
@@ -185,7 +236,27 @@ public class DirectionService : IDirectionService
         return newRoute;
     }
 
+    private double CalculateDistance(Location loc1, Location loc2)
+    {
+        const double EarthRadius = 6371;
+        
+        var lat1 = loc1.GetLatInDouble();
+        var lng1 = loc1.GetLngInDouble();
+        var lat2 = loc2.GetLatInDouble();
+        var lng2 = loc2.GetLngInDouble();
 
+        // Convert degrees to radians
+        var dLat = ToRadians(lat2 - lat1);
+        var dLng = ToRadians(lng2 - lng1);
+
+        // Haversine formula
+        var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                Math.Cos(ToRadians(lat1)) * Math.Cos(ToRadians(lat2)) *
+                Math.Sin(dLng / 2) * Math.Sin(dLng / 2);
+
+        var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+        return EarthRadius * c; // Distance in kilometers
+    }
     private double CalculateTotalDistance(Location start, Location end, List<Location> route)
     {
         double total = 0;
@@ -199,31 +270,6 @@ public class DirectionService : IDirectionService
 
         total += CalculateDistance(current, end);
         return total;
-    }
-
-    private double CalculateDistance(Location point1, Location point2)
-    {
-        const double EarthRadiusMeters = 6371000; // Радіус Землі в метрах
-
-        if (!double.TryParse(point1.Lat, CultureInfo.InvariantCulture, out double lat1) ||
-            !double.TryParse(point1.Lng, CultureInfo.InvariantCulture, out double lng1) ||
-            !double.TryParse(point2.Lat, CultureInfo.InvariantCulture, out double lat2) ||
-            !double.TryParse(point2.Lng, CultureInfo.InvariantCulture, out double lng2))
-        {
-            throw new ArgumentException("Invalid coordinate format");
-        }
-
-        // Переведення в радіани
-        double dLat = ToRadians(lat2 - lat1);
-        double dLng = ToRadians(lng2 - lng1);
-
-        double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-                   Math.Cos(ToRadians(lat1)) * Math.Cos(ToRadians(lat2)) *
-                   Math.Sin(dLng / 2) * Math.Sin(dLng / 2);
-
-        double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-
-        return EarthRadiusMeters * c;
     }
 
     private double ToRadians(double degrees)
