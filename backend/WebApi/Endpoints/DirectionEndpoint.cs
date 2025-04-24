@@ -8,7 +8,7 @@ public static class DirectionEndpoint
 {
     public static void MapDirectionEndpoint(this WebApplication app)
     {
-        app.MapGet("/places/direction",
+        app.MapPost("/places/direction",
             async ([FromServices] IDirectionService directionService, [FromBody] DirectionRequest request) =>
             {
                 try
