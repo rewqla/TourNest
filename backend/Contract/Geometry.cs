@@ -1,4 +1,4 @@
-﻿namespace ExternalApis.Models;
+﻿namespace Contract;
 
 public class Geometry
 {

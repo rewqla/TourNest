@@ -3,6 +3,7 @@ using Contract;
 using Core.Interfaces;
 using Core.Mapping;
 using Core.Models;
+using ExternalApis;
 using ExternalApis.Models;
 using Microsoft.Extensions.Logging;
 
@@ -49,8 +50,14 @@ public class DirectionService : IDirectionService
         var selectedPlaces = SelectBestPlaces(placesNearRoute, maxPlacesToVisit, categories);
 
         // Step 4: Create optimal route with waypoints
-        var routeWithWaypoints = await CreateOptimalRouteWithWaypoints(
-            startLocation, endLocation, selectedPlaces);
+        // var routeWithWaypoints = await CreateOptimalRouteWithWaypoints(
+        //     startLocation, endLocation, selectedPlaces);
+
+        var waypoints = new List<Location> { startLocation };
+        waypoints.AddRange(selectedPlaces.Select(x => x.Location)); // додаємо вибрані місця
+        waypoints.Add(endLocation);
+
+        var routeWithWaypoints = await _mapboxService.GetOptimizedRouteWithWaypointsAsync(waypoints);
 
         // Create and return response
         return new DirectionResult

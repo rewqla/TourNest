@@ -1,4 +1,5 @@
-﻿using ExternalApis.Models;
+﻿using Contract;
+using ExternalApis.Models;
 
 namespace Core.Models;
 

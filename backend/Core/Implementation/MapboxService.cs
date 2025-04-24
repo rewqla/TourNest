@@ -34,7 +34,7 @@ public class MapboxService : IMapboxService
                 "geojson",
                 "en",
                 _apiKey);
-                
+
             return MapToRouteResponse(response);
         }
         catch (Exception ex)
@@ -50,9 +50,9 @@ public class MapboxService : IMapboxService
         {
             if (waypoints == null || waypoints.Count < 2)
                 throw new ArgumentException("At least start and end points are required");
-                
+
             var coordinatesBuilder = new StringBuilder();
-            
+
             for (int i = 0; i < waypoints.Count; i++)
             {
                 string lat = waypoints[i].Lat.ToString().Replace(',', '.');
@@ -63,7 +63,7 @@ public class MapboxService : IMapboxService
                 if (i < waypoints.Count - 1)
                     coordinatesBuilder.Append(';');
             }
-            
+
             var response = await _mapboxApi.GetDirectionsAsync(
                 "driving",
                 coordinatesBuilder.ToString(),
@@ -71,7 +71,7 @@ public class MapboxService : IMapboxService
                 "geojson",
                 "en",
                 _apiKey);
-                
+
             return MapToRouteResponse(response);
         }
         catch (Exception ex)
@@ -80,21 +80,55 @@ public class MapboxService : IMapboxService
             throw;
         }
     }
-    
+
+    public async Task<RouteResult> GetOptimizedRouteWithWaypointsAsync(List<Location> waypoints)
+    {
+        if (waypoints == null || waypoints.Count < 2)
+            throw new ArgumentException("At least start and end points are required");
+
+        var changedWaypoints = waypoints.Select(x => new Location
+        {
+            Lat = x.Lat.Replace(",", "."),
+            Lng = x.Lng.Replace(",", ".")
+        });
+
+        var coordinates = string.Join(";", changedWaypoints.Select(w => $"{w.Lng},{w.Lat}"));
+        var result = await _mapboxApi.GetOptimizedRouteAsync(
+            profile: "driving",
+            coordinates: coordinates,
+            accessToken: _apiKey,
+            roundtrip: "false",
+            source: "first",
+            destination: "last",
+            geometries: "geojson"
+        );
+
+        var firstTrip = result?.Trips?.FirstOrDefault();
+        if (firstTrip == null)
+            throw new Exception("No optimized trip returned by Mapbox");
+
+        return new RouteResult
+        {
+            Distance = firstTrip.Distance,
+            Duration = firstTrip.Duration,
+            Geometry = firstTrip.Geometry
+        };
+    }
+
     private RouteResult MapToRouteResponse(MapboxDirectionsResult response)
     {
         if (response?.Routes == null || !response.Routes.Any())
             throw new Exception("No routes found");
-            
+
         var route = response.Routes.First();
-        
+
         var result = new RouteResult
         {
             Geometry = route.Geometry,
             Distance = route.Distance,
             Duration = route.Duration
         };
-        
+
         if (route.Legs != null)
         {
             foreach (var leg in route.Legs)
@@ -118,7 +152,7 @@ public class MapboxService : IMapboxService
                 }
             }
         }
-        
+
         return result;
     }
 }

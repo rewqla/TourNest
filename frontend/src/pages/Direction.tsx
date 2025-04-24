@@ -216,6 +216,7 @@ const DirectionPage = () => {
 
       const newMarkers: mapboxgl.Marker[] = [];
 
+      let i = 1;
       result.placesToVisit.forEach((place) => {
         console.log(place);
         let lat = parseFloat(place.location.lat.replace(",", "."));
@@ -225,10 +226,12 @@ const DirectionPage = () => {
           .setLngLat([lng, lat])
           .addTo(map);
 
-        const title = place.name + " " + (place.categories[0]?.name || "Place");
+        const title =
+          i + ") " + place.name + " " + (place.categories[0]?.name || "Place");
 
         marker.getElement().setAttribute("title", title);
         newMarkers.push(marker);
+        i++;
       });
 
       setVisitMarkers(newMarkers);
@@ -353,7 +356,7 @@ const DirectionPage = () => {
 
           <Col xs={24} lg={18}>
             <Card className="h-full">
-              <div ref={mapNode} style={{ height: "75vh", width: "100%" }} />
+              <div ref={mapNode} style={{ height: "85vh", width: "100%" }} />
             </Card>
           </Col>
         </Row>

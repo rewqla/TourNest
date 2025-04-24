@@ -1,4 +1,6 @@
-﻿namespace ExternalApis.Models;
+﻿using Contract;
+
+namespace ExternalApis.Models;
 
 public class MapboxRoute
 {
