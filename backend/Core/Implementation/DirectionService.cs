@@ -137,55 +137,150 @@ public class DirectionService : IDirectionService
         Location start, Location end, List<Place> places)
     {
         // Step 1: Add waypoints in optimal order
-        var orderedWaypoints = OptimizeWaypointOrder(start, end, places.Select(x => x.Location).ToList());
+        var orderedWaypoints = OptimizeWaypointOrder(start, end, places);
 
         // Step 2: Get route with all waypoints
-        return await _mapboxService.GetRouteWithWaypointsAsync(orderedWaypoints);
+        return await _mapboxService.GetRouteWithWaypointsAsync(orderedWaypoints.Select(x => x.Location).ToList());
     }
 
-    private List<Location> OptimizeWaypointOrder(Location start, Location end, List<Location> waypoints)
+    private List<Place> OptimizeWaypointOrder(Location start, Location end, List<Place> places)
     {
-        // Add start and end to the list of points
-        var locations = new List<Location> { start };
-        locations.AddRange(waypoints);
-        locations.Add(end);
+        if (!places.Any())
+            return new List<Place>();
 
-// Generate all permutations of the waypoints (excluding start and end)
-        var waypointPermutations = GetPermutations(waypoints, waypoints.Count).ToList();
 
-        var optimalRoute = new List<Location>();
-        double shortestDistance = double.MaxValue;
+        // Using a modified nearest insertion algorithm that accounts for both start and end
+        var result = new List<Place>();
+        var unvisitedPlaces = new List<Place>(places);
 
-// Iterate through all permutations to find the optimal route
-        foreach (var permutation in waypointPermutations)
+
+        // Initialize with a path from start to end
+        var totalPathDistance = CalculateDistance(
+            start.Lat, start.Lng,
+            end.Lat, end.Lng);
+
+        // For each unvisited place, find the best insertion point in the current path
+        while (unvisitedPlaces.Any())
         {
-            // Add start, then the current permutation, then the end
-            var route = new List<Location> { start };
-            route.AddRange(permutation);
-            route.Add(end);
+            Place bestPlace = null;
+            double bestIncrease = double.MaxValue;
 
-            // Calculate the total distance for this route
-            double totalDistance = CalculateTotalDistance(route);
-
-            // If this route is shorter than the previous best, update optimalRoute
-            if (totalDistance < shortestDistance)
+            foreach (var place in unvisitedPlaces)
             {
-                shortestDistance = totalDistance;
-                optimalRoute = new List<Location>(route);
+                // Calculate the increased distance if we insert this place between start and end
+                // or at the appropriate position in the existing path
+
+                // For empty result (direct start to end), we're inserting between start and end
+                if (result.Count == 0)
+                {
+                    var newDistance =
+                        CalculateDistance(start.Lat, start.Lng, place.Location.Lat, place.Location.Lng) +
+                        CalculateDistance(place.Location.Lat, place.Location.Lng, end.Lat, end.Lng);
+
+                    var increase = newDistance - totalPathDistance;
+
+                    if (increase < bestIncrease)
+                    {
+                        bestIncrease = increase;
+                        bestPlace = place;
+                    }
+                }
+                else
+                {
+                    // Try inserting at each position in the path
+                    for (int i = 0; i <= result.Count; i++)
+                    {
+                        Location before = i == 0 ? start : result[i - 1].Location;
+                        Location after = i == result.Count ? end : result[i].Location;
+
+                        // Calculate the increase in distance
+                        var oldSegment = CalculateDistance(before.Lat, before.Lng, after.Lat, after.Lng);
+
+                        var newSegments =
+                            CalculateDistance(before.Lat, before.Lng, place.Location.Lat, place.Location.Lng) +
+                            CalculateDistance(place.Location.Lat, place.Location.Lng, after.Lat, after.Lng);
+
+                        var increase = newSegments - oldSegment;
+
+                        if (increase < bestIncrease)
+                        {
+                            bestIncrease = increase;
+                            bestPlace = place;
+                        }
+                    }
+                }
             }
+
+            // Insert the best place at its optimal position
+            if (result.Count == 0)
+            {
+                result.Add(bestPlace);
+            }
+            else
+            {
+                // Find the best insertion position
+                int bestPosition = 0;
+                double bestPositionIncrease = double.MaxValue;
+
+                for (int i = 0; i <= result.Count; i++)
+                {
+                    Location before = i == 0 ? start : result[i - 1].Location;
+                    Location after = i == result.Count ? end : result[i].Location;
+
+                    var oldSegment = CalculateDistance(before.Lat, before.Lng, after.Lat, after.Lng);
+
+                    var newSegments =
+                        CalculateDistance(before.Lat, before.Lng, bestPlace.Location.Lat, bestPlace.Location.Lng) +
+                        CalculateDistance(bestPlace.Location.Lat, bestPlace.Location.Lng, after.Lat, after.Lng);
+
+                    var increase = newSegments - oldSegment;
+
+                    if (increase < bestPositionIncrease)
+                    {
+                        bestPositionIncrease = increase;
+                        bestPosition = i;
+                    }
+                }
+
+                result.Insert(bestPosition, bestPlace);
+            }
+
+            // Update total path distance
+            totalPathDistance += bestIncrease;
+            unvisitedPlaces.Remove(bestPlace);
         }
 
-        return optimalRoute;
+        return result;
     }
-    
-    private double CalculateTotalDistance(List<Location> route)
+
+    private double CalculateDistance(string lat1Str, string lng1Str, string lat2Str, string lng2Str)
     {
-        double totalDistance = 0;
-        for (int i = 0; i < route.Count - 1; i++)
+        if (!double.TryParse(lat1Str, CultureInfo.InvariantCulture, out double lat1) ||
+            !double.TryParse(lng1Str, CultureInfo.InvariantCulture, out double lng1) ||
+            !double.TryParse(lat2Str, CultureInfo.InvariantCulture, out double lat2) ||
+            !double.TryParse(lng2Str, CultureInfo.InvariantCulture, out double lng2))
         {
-            totalDistance += CalculateDistance(route[i], route[i + 1]);
+            throw new ArgumentException("Invalid coordinate format");
         }
-        return totalDistance;
+
+        return CalculateDistance(lat1, lng1, lat2, lng2);
+    }
+
+    private double CalculateDistance(double lat1, double lng1, double lat2, double lng2)
+    {
+        const double EarthRadiusMeters = 6371000; // Earth's radius in meters
+
+        // Convert latitude and longitude from degrees to radians
+        var dLat = (lat2 - lat1) * Math.PI / 180;
+        var dLng = (lng2 - lng1) * Math.PI / 180;
+
+
+        var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                Math.Cos(lat1 * Math.PI / 180) * Math.Cos(lat2 * Math.PI / 180) *
+                Math.Sin(dLng / 2) * Math.Sin(dLng / 2);
+
+        var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+        return EarthRadiusMeters * c; // Distance in meters
     }
 
     private static IEnumerable<IEnumerable<T>> GetPermutations<T>(List<T> list, int length)
@@ -239,7 +334,7 @@ public class DirectionService : IDirectionService
     private double CalculateDistance(Location loc1, Location loc2)
     {
         const double EarthRadius = 6371;
-        
+
         var lat1 = loc1.GetLatInDouble();
         var lng1 = loc1.GetLngInDouble();
         var lat2 = loc2.GetLatInDouble();
@@ -257,6 +352,7 @@ public class DirectionService : IDirectionService
         var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
         return EarthRadius * c; // Distance in kilometers
     }
+
     private double CalculateTotalDistance(Location start, Location end, List<Location> route)
     {
         double total = 0;
