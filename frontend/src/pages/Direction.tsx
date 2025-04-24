@@ -144,8 +144,60 @@ const DirectionPage = () => {
 
       setDuration(result.estimatedTime);
 
-      // TODO: display result on map
-      // TODO: add validation
+      if (!map) return;
+
+      // Remove previous route layer if it exists
+      if (map.getLayer("route-line")) {
+        map.removeLayer("route-line");
+      }
+      if (map.getSource("route")) {
+        map.removeSource("route");
+      }
+
+      // Add new route as a line
+      map.addSource("route", {
+        type: "geojson",
+        data: {
+          type: "Feature",
+          geometry: result.route.geometry,
+        },
+      });
+
+      map.addLayer({
+        id: "route-line",
+        type: "line",
+        source: "route",
+        layout: {
+          "line-join": "round",
+          "line-cap": "round",
+        },
+        paint: {
+          "line-color": "#3b82f6",
+          "line-width": 4,
+        },
+      });
+
+      // Add place markers
+      result.placesToVisit.forEach((place) => {
+        console.log(place);
+        let lat = parseFloat(place.location.lat.replace(",", "."));
+        let lng = parseFloat(place.location.lng.replace(",", "."));
+
+        const marker = new mapboxgl.Marker({ color: "#f59e0b" }) // yellow-orange
+          .setLngLat([lng, lat])
+          .addTo(map);
+
+        const title = place.name + " " + (place.categories[0]?.name || "Place");
+
+        marker.getElement().setAttribute("title", title);
+      });
+
+      // Fit bounds around the full route
+      const bounds = new mapboxgl.LngLatBounds();
+      result.route.steps.forEach((step) => {
+        bounds.extend([step.location.lng, step.location.lat]);
+      });
+      map.fitBounds(bounds, { padding: 50 });
     } catch (error) {
       console.error("Network error:", error);
     }
