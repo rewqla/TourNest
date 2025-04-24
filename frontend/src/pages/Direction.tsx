@@ -5,14 +5,12 @@ import {
   Layout,
   Button,
   Select,
-  InputNumber,
   Card,
   Row,
   Col,
   Typography,
   Space,
   Divider,
-  message,
 } from "antd";
 import {
   EnvironmentOutlined,
@@ -21,14 +19,14 @@ import {
 } from "@ant-design/icons";
 
 const { Header, Content } = Layout;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY;
 
 const categoryOptions = [
   { value: "restaurant", label: "Restaurants" },
   { value: "cafe", label: "Cafes" },
-  { value: "bar", label: "Bars" },
+  { value: "atm", label: "ATM" },
   { value: "tourist_attraction", label: "Tourist Attractions" },
   { value: "museum", label: "Museums" },
   { value: "park", label: "Parks" },
@@ -37,6 +35,9 @@ const categoryOptions = [
 
 const DirectionPage = () => {
   const [map, setMap] = React.useState<mapboxgl.Map>();
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [distance, setDistance] = useState("—");
+  const [duration, setDuration] = useState("—");
 
   const mapNode = React.useRef(null);
 
@@ -65,6 +66,72 @@ const DirectionPage = () => {
     <Layout className="min-h-screen">
       <Content className="p-6">
         <Row gutter={[16, 16]}>
+          <Col xs={24} lg={6}>
+            <Card title="Route Configuration" className="mb-6">
+              <Space direction="vertical" className="w-full" size="large">
+                <div>
+                  <Text strong>
+                    <EnvironmentOutlined /> Start Point:
+                  </Text>
+                  <div>
+                    <Text type="secondary">Click on the map to select</Text>
+                  </div>
+                </div>
+
+                <div>
+                  <Text strong>
+                    <AimOutlined /> End Point:
+                  </Text>
+                  <div>
+                    <Text type="secondary">Click on the map to select</Text>
+                  </div>
+                </div>
+
+                <Divider />
+
+                <div>
+                  <Text strong>Categories to Visit:</Text>
+                  <div style={{ marginTop: 8 }}>
+                    <Select
+                      allowClear
+                      mode="multiple"
+                      placeholder="Select categories"
+                      style={{ width: "100%" }}
+                      options={categoryOptions}
+                      value={selectedCategories}
+                      onChange={setSelectedCategories}
+                    />
+                  </div>
+                </div>
+
+                <Divider />
+
+                <div>
+                  <Text strong>Estimated Distance:</Text>
+                  <div>
+                    <Text>{distance} km</Text>
+                  </div>
+                </div>
+
+                <div>
+                  <Text strong>Estimated Time:</Text>
+                  <div>
+                    <Text>{duration}</Text>
+                  </div>
+                </div>
+
+                <Button
+                  type="primary"
+                  icon={<CarOutlined />}
+                  block
+                  size="large"
+                >
+                  Generate Route
+                </Button>
+              </Space>
+            </Card>
+          </Col>
+
           <Col xs={24} lg={18}>
             <Card className="h-full">
               <div ref={mapNode} style={{ height: "75vh", width: "100%" }} />
