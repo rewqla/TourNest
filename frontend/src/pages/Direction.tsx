@@ -40,6 +40,7 @@ const DirectionPage = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [visitMarkers, setVisitMarkers] = useState<mapboxgl.Marker[]>([]);
 
   const [startPoint, setStartPoint] = useState<[number, number] | null>(null);
   const [endPoint, setEndPoint] = useState<[number, number] | null>(null);
@@ -178,6 +179,10 @@ const DirectionPage = () => {
       });
 
       // Add place markers
+      visitMarkers.forEach((marker) => marker.remove());
+      setVisitMarkers([]);
+      const newMarkers: mapboxgl.Marker[] = [];
+
       result.placesToVisit.forEach((place) => {
         console.log(place);
         let lat = parseFloat(place.location.lat.replace(",", "."));
@@ -190,7 +195,10 @@ const DirectionPage = () => {
         const title = place.name + " " + (place.categories[0]?.name || "Place");
 
         marker.getElement().setAttribute("title", title);
+        newMarkers.push(marker);
       });
+
+      setVisitMarkers(newMarkers);
 
       // Fit bounds around the full route
       const bounds = new mapboxgl.LngLatBounds();
