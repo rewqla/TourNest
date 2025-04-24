@@ -41,6 +41,7 @@ const DirectionPage = () => {
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
   const [visitMarkers, setVisitMarkers] = useState<mapboxgl.Marker[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [startPoint, setStartPoint] = useState<[number, number] | null>(null);
   const [endPoint, setEndPoint] = useState<[number, number] | null>(null);
@@ -152,6 +153,8 @@ const DirectionPage = () => {
       maxPlacesToVisit: selectedCategories.length,
     };
 
+    setIsLoading(true);
+
     try {
       const response = await fetch("https://localhost:7118/places/direction", {
         method: "POST",
@@ -238,6 +241,8 @@ const DirectionPage = () => {
       map.fitBounds(bounds, { padding: 50 });
     } catch (error) {
       console.error("Network error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -332,6 +337,7 @@ const DirectionPage = () => {
                   block
                   size="large"
                   onClick={handleGenerateRoute}
+                  loading={isLoading}
                   disabled={
                     !startPoint || !endPoint || selectedCategories.length === 0
                   }
