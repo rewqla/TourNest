@@ -11,6 +11,7 @@ import {
   Typography,
   Space,
   Divider,
+  Radio,
 } from "antd";
 import {
   EnvironmentOutlined,
@@ -39,6 +40,16 @@ const DirectionPage = () => {
   const [distance, setDistance] = useState("—");
   const [duration, setDuration] = useState("—");
 
+  const [startPoint, setStartPoint] = useState<[number, number] | null>(null);
+  const [endPoint, setEndPoint] = useState<[number, number] | null>(null);
+  const [pointSelection, setPointSelection] = useState<"start" | "end">(
+    "start"
+  );
+  const pointSelectionRef = useRef(pointSelection);
+
+  const startMarker = useRef<mapboxgl.Marker | null>(null);
+  const endMarker = useRef<mapboxgl.Marker | null>(null);
+
   const mapNode = React.useRef(null);
 
   // Initialize map when component mounts
@@ -55,12 +66,40 @@ const DirectionPage = () => {
       zoom: 12,
     });
 
+    mapboxMap.on("click", (e) => {
+      const coords: [number, number] = [e.lngLat.lng, e.lngLat.lat];
+
+      if (pointSelectionRef.current === "start") {
+        setStartPoint(coords);
+        if (startMarker.current) {
+          startMarker.current.setLngLat(coords);
+        } else {
+          startMarker.current = new mapboxgl.Marker({ color: "green" })
+            .setLngLat(coords)
+            .addTo(mapboxMap);
+        }
+      } else {
+        setEndPoint(coords);
+        if (endMarker.current) {
+          endMarker.current.setLngLat(coords);
+        } else {
+          endMarker.current = new mapboxgl.Marker({ color: "red" })
+            .setLngLat(coords)
+            .addTo(mapboxMap);
+        }
+      }
+    });
+
     setMap(mapboxMap);
 
     return () => {
       mapboxMap.remove();
     };
   }, []);
+
+  useEffect(() => {
+    pointSelectionRef.current = pointSelection;
+  }, [pointSelection]);
 
   return (
     <Layout className="min-h-screen">
@@ -74,7 +113,13 @@ const DirectionPage = () => {
                     <EnvironmentOutlined /> Start Point:
                   </Text>
                   <div>
-                    <Text type="secondary">Click on the map to select</Text>
+                    <Text type="secondary">
+                      {startPoint
+                        ? `${startPoint[1].toFixed(5)}, ${startPoint[0].toFixed(
+                            5
+                          )}`
+                        : "Click on the map to select"}
+                    </Text>
                   </div>
                 </div>
 
@@ -83,9 +128,24 @@ const DirectionPage = () => {
                     <AimOutlined /> End Point:
                   </Text>
                   <div>
-                    <Text type="secondary">Click on the map to select</Text>
+                    <Text type="secondary">
+                      {endPoint
+                        ? `${endPoint[1].toFixed(5)}, ${endPoint[0].toFixed(5)}`
+                        : "Click on the map to select"}
+                    </Text>
                   </div>
                 </div>
+                <Radio.Group
+                  value={pointSelection}
+                  onChange={(e) => {
+                    setPointSelection(e.target.value);
+                  }}
+                  optionType="button"
+                  buttonStyle="solid"
+                >
+                  <Radio.Button value="start">Set Start</Radio.Button>
+                  <Radio.Button value="end">Set End</Radio.Button>
+                </Radio.Group>
 
                 <Divider />
 
