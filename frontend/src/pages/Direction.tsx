@@ -103,6 +103,35 @@ const DirectionPage = () => {
     pointSelectionRef.current = pointSelection;
   }, [pointSelection]);
 
+  const handleClearMap = () => {
+    if (!map) return;
+
+    // Remove start and end markers
+    startMarker.current?.remove();
+    startMarker.current = null;
+
+    endMarker.current?.remove();
+    endMarker.current = null;
+
+    // Remove route layer
+    if (map.getLayer("route-line")) {
+      map.removeLayer("route-line");
+    }
+    if (map.getSource("route")) {
+      map.removeSource("route");
+    }
+
+    // Remove visit markers
+    visitMarkers.forEach((marker) => marker.remove());
+    setVisitMarkers([]);
+
+    // Reset state
+    setStartPoint(null);
+    setEndPoint(null);
+    setDistance(0);
+    setDuration(0);
+  };
+
   const handleGenerateRoute = async () => {
     if (!startPoint || !endPoint) {
       console.warn("Start or end point not set");
@@ -120,7 +149,7 @@ const DirectionPage = () => {
       },
       categories: selectedCategories,
       maxDetourDistance: 2000,
-      maxPlacesToVisit: 4,
+      maxPlacesToVisit: selectedCategories.length,
     };
 
     try {
@@ -181,6 +210,7 @@ const DirectionPage = () => {
       // Add place markers
       visitMarkers.forEach((marker) => marker.remove());
       setVisitMarkers([]);
+
       const newMarkers: mapboxgl.Marker[] = [];
 
       result.placesToVisit.forEach((place) => {
@@ -307,6 +337,9 @@ const DirectionPage = () => {
                   }
                 >
                   Generate Route
+                </Button>
+                <Button danger block size="large" onClick={handleClearMap}>
+                  Clear Map
                 </Button>
               </Space>
             </Card>
