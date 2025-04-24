@@ -12,7 +12,7 @@ builder.Services.AddScoped<IPlacesService, HerePlacesService>();
 builder.Services.AddScoped<IDirectionService, DirectionService>();
 builder.Services.AddScoped<IMapboxService, MapboxService>();
 
-var hereApiKey = builder.Configuration.GetValue<string>("HereApi:ApiKey")!;
+builder.Services.AddCors();
 
 builder.Services.AddRefitClient<IHerePlacesApi>()
     .ConfigureHttpClient(c =>
@@ -26,10 +26,15 @@ builder.Services.AddRefitClient<IMapboxApi>()
         client.BaseAddress = new Uri("https://api.mapbox.com");
     });
 
-
 var app = builder.Build();
 
 app.MapPlaceEndpoints();
 app.MapDirectionEndpoint();
+
+app.UseCors(opt =>
+{
+    opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:5173");
+});
+
 
 app.Run();
