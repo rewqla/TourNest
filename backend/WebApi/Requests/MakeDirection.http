@@ -55,3 +55,22 @@ Content-Type: application/json
 }
 
 ###
+
+POST {{baseAddress}}/places/direction
+Content-Type: application/json
+
+{
+  "startLocation": {
+    "lat": "49.54477348294097",
+    "lng": "25.609265967494935"
+  },
+  "endLocation": {
+    "lat": "49.561402453564114",
+    "lng": "25.58615403462366"
+  },
+  "categories": ["hotel", "theatre","museums"],
+  "maxDetourDistance": 2000,
+  "maxPlacesToVisit": 4
+}
+
+###
