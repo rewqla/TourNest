@@ -1,4 +1,3 @@
-// src/components/Header.js
 import { Image, Row, Col, Typography, Flex, MenuProps, Dropdown } from "antd";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/point-vector.png";
@@ -10,9 +9,10 @@ const { Title, Text } = Typography;
 const CustomHeader = () => {
   const navigate = useNavigate();
   const { isLoggedIn, logout } = useAuthContext();
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const toggleLanguage = () => {
+    console.log(i18n.language);
     i18n.changeLanguage(i18n.language === "en" ? "ua" : "en");
   };
 
@@ -47,7 +47,6 @@ const CustomHeader = () => {
       }}
     >
       <Row justify="space-between" align="middle" wrap={false}>
-        {/* Logo Section */}
         <Col>
           <Flex
             onClick={() => navigate("/")}
@@ -62,29 +61,35 @@ const CustomHeader = () => {
           </Flex>
         </Col>
 
-        {/* Navigation + Language + Auth */}
         <Flex align="center" gap={30}>
-          <Text
+          <Flex
+            align="center"
+            gap={8}
             onClick={toggleLanguage}
-            style={{
-              cursor: "pointer",
-              color: "#4A4A4A",
-              fontWeight: 600,
-              userSelect: "none",
-            }}
+            style={{ cursor: "pointer", userSelect: "none" }}
           >
-            <span
-              style={{ fontWeight: i18n.language === "ua" ? "bold" : "normal" }}
+            <Text
+              style={{
+                fontWeight: i18n.language === "ua" ? "bold" : "normal",
+                fontSize: i18n.language === "ua" ? 16 : 14,
+                color: "#6c837a",
+                transition: "all 0.2s",
+              }}
             >
               UA
-            </span>{" "}
-            |{" "}
-            <span
-              style={{ fontWeight: i18n.language === "en" ? "bold" : "normal" }}
+            </Text>
+            <Text style={{ color: "#4A4A4A", fontSize: 16 }}>|</Text>
+            <Text
+              style={{
+                fontWeight: i18n.language === "en" ? "bold" : "normal",
+                fontSize: i18n.language === "en" ? 16 : 14,
+                color: "#6c837a",
+                transition: "all 0.2s",
+              }}
             >
               EN
-            </span>
-          </Text>
+            </Text>
+          </Flex>
 
           <Text
             onClick={() => navigate("/discover")}
