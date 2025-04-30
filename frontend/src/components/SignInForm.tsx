@@ -2,6 +2,8 @@ import { Form, Input, Checkbox, Button, Typography } from "antd";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import Link from "antd/es/typography/Link";
 import { useAuthContext } from "../context/useAuth";
+import { useTranslation } from "react-i18next";
+
 const { Text } = Typography;
 
 declare interface LoginInputs {
@@ -10,6 +12,7 @@ declare interface LoginInputs {
 }
 
 const SignInForm = () => {
+  const { t } = useTranslation();
   const { loginUser } = useAuthContext();
 
   const onFinish = (values: LoginInputs) => {
@@ -31,34 +34,37 @@ const SignInForm = () => {
         rules={[
           {
             required: true,
-            message: "Please input your username!",
+            message: t("login.usernameRequired"),
           },
         ]}
       >
-        <Input prefix={<MailOutlined />} placeholder="username" />
+        <Input
+          prefix={<MailOutlined />}
+          placeholder={t("login.usernamePlaceholder")}
+        />
       </Form.Item>
       <Form.Item
         name="password"
         rules={[
           {
             required: true,
-            message: "Please input your Password!",
+            message: t("login.passwordRequired"),
           },
         ]}
       >
         <Input.Password
           prefix={<LockOutlined />}
           type="password"
-          placeholder="Password"
+          placeholder={t("login.passwordPlaceholder")}
         />
       </Form.Item>
       <Form.Item style={{ marginBottom: "0px" }}>
-        <Button block="true" type="primary" htmlType="submit">
-          Log in
+        <Button block type="primary" htmlType="submit">
+          {t("login.button")}
         </Button>
         <div style={{ marginTop: "20px" }}>
-          <Text>Don't have an account?</Text>{" "}
-          <Link href="/sign-up">Sign up now</Link>
+          <Text>{t("login.noAccount")}</Text>{" "}
+          <Link href="/sign-up">{t("login.signUpNow")}</Link>
         </div>
       </Form.Item>
     </Form>

@@ -43,5 +43,22 @@
       "title": "Cityscapes: Urban Beauty",
       "description": "Admire stunning architectural wonders and city panoramas. Explore breathtaking views from rooftops and enjoy the beauty of urban design and creativity."
     }
+  },
+  "login": {
+    "usernameRequired": "Please input your username!",
+    "passwordRequired": "Please input your Password!",
+    "usernamePlaceholder": "Username",
+    "passwordPlaceholder": "Password",
+    "button": "Log in",
+    "noAccount": "Don't have an account?",
+    "signUpNow": "Sign up now"
+  },
+  "signin": {
+    "title": "Welcome Back",
+    "subtitle": "Please sign in to your account to continue."
+  },
+  "signup": {
+    "title": "Sign Up",
+    "subtitle": "Please fill in the form below to sign up and create an account."
   }
 }
