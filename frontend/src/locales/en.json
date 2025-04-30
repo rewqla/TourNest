@@ -7,5 +7,12 @@
     "mapAndDirection": "Map & Direction",
     "yourSpace": "Your space",
     "account": "Account"
+  },
+  "footer": {
+    "tagline": "Less stress more feelings. Be free with us",
+    "quickLinks": "Quick Links",
+    "aboutUs": "About Us",
+    "contact": "Contact",
+    "privacyPolicy": "Privacy Policy"
   }
 }
