@@ -14,5 +14,34 @@
     "aboutUs": "About Us",
     "contact": "Contact",
     "privacyPolicy": "Privacy Policy"
+  },
+  "carousel": {
+    "title": "Discover with us"
+  },
+  "cards": {
+    "cityExploration": {
+      "title": "City Exploration",
+      "description": "Discover the hidden gems and iconic landmarks across the city. Experience the vibrant culture and rich history that make each neighborhood unique."
+    },
+    "urbanVisions": {
+      "title": "Local Artist Showcase: Urban Visions",
+      "description": "Experience the city through the eyes of its vibrant artist community. Engage with local creators and explore their masterpieces that reflect the spirit of the city."
+    },
+    "cityLights": {
+      "title": "City Lights: Nighttime Revelations",
+      "description": "See the city come alive under the twinkling city lights. Enjoy the nightlife with live music, street performances, and bustling night markets."
+    },
+    "culinaryDelights": {
+      "title": "Culinary Delights: Flavors of the City",
+      "description": "Taste diverse flavors from the city's renowned culinary scene. From street food to fine dining, savor every bite of local and international cuisines."
+    },
+    "cityRhythms": {
+      "title": "City Rhythms: Musical Fusion",
+      "description": "Catch the beat of the city's eclectic music and nightlife. Join us for unforgettable live performances and discover the sounds that define the city."
+    },
+    "cityscapes": {
+      "title": "Cityscapes: Urban Beauty",
+      "description": "Admire stunning architectural wonders and city panoramas. Explore breathtaking views from rooftops and enjoy the beauty of urban design and creativity."
+    }
   }
 }
