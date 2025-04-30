@@ -112,7 +112,6 @@ const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       return;
     }
 
-    // Simulate setting token in localStorage
     const token = "mockToken123";
     localStorage.setItem("token", token);
     localStorage.setItem(

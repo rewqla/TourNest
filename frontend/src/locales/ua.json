@@ -1,0 +1,11 @@
+{
+  "header": {
+    "profile": "Профіль",
+    "travelHistory": "Історія подорожей",
+    "logout": "Вийти",
+    "discover": "Відкрити",
+    "mapAndDirection": "Карта та маршрут",
+    "yourSpace": "Ваш простір",
+    "account": "Акаунт"
+  }
+}

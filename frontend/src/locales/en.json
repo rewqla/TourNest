@@ -1,0 +1,11 @@
+{
+  "header": {
+    "profile": "Profile",
+    "travelHistory": "Travel history",
+    "logout": "Logout",
+    "discover": "Discover",
+    "mapAndDirection": "Map & Direction",
+    "yourSpace": "Your space",
+    "account": "Account"
+  }
+}

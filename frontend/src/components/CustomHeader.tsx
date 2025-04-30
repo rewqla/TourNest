@@ -18,18 +18,24 @@ const CustomHeader = () => {
 
   const userItems: MenuProps["items"] = [
     {
-      label: <Text onClick={() => navigate("/profile")}>Profile</Text>,
+      label: (
+        <Text onClick={() => navigate("/profile")}>{t("header.profile")}</Text>
+      ),
       key: "0",
     },
     {
-      label: <Text onClick={() => navigate("/history")}>Travel history</Text>,
+      label: (
+        <Text onClick={() => navigate("/history")}>
+          {t("header.travelHistory")}
+        </Text>
+      ),
       key: "1",
     },
     {
       type: "divider",
     },
     {
-      label: <Text onClick={logout}>Logout</Text>,
+      label: <Text onClick={logout}>{t("header.logout")}</Text>,
       key: "3",
     },
   ];
@@ -100,7 +106,7 @@ const CustomHeader = () => {
               fontSize: 16,
             }}
           >
-            Discover
+            {t("header.discover")}
           </Text>
           <Text
             onClick={() => navigate("/direction")}
@@ -111,7 +117,7 @@ const CustomHeader = () => {
               fontSize: 16,
             }}
           >
-            Map & Direction
+            {t("header.mapAndDirection")}
           </Text>
 
           {isLoggedIn() ? (
@@ -124,7 +130,7 @@ const CustomHeader = () => {
                   fontWeight: 600,
                 }}
               >
-                Your space
+                {t("header.yourSpace")}
               </Text>
             </Dropdown>
           ) : (
@@ -137,7 +143,7 @@ const CustomHeader = () => {
                 fontSize: 16,
               }}
             >
-              Account
+              {t("header.account")}
             </Text>
           )}
         </Flex>
