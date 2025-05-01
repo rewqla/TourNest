@@ -25,13 +25,13 @@ const CustomFooter = () => {
           </Title>
           <Flex vertical>
             <Col>
-              <Link
+              <Text
                 className="footer-text"
-                href="https://ant.design"
-                target="_blank"
+                style={{ cursor: "pointer", color: "#1677ff" }}
+                onClick={() => navigate("/about-us")}
               >
                 {t("footer.aboutUs")}
-              </Link>
+              </Text>
             </Col>
             <Col>
               <Text
