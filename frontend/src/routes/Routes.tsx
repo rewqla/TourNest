@@ -7,7 +7,6 @@ import PrivacyPolicyPage from "../pages/PrivacyPolicyPage";
 import ProfilePage from "../pages/ProfilePage";
 import SignInPage from "../pages/SignInPage";
 import SignUpPage from "../pages/SignUpPage";
-import TestPage from "../pages/test";
 import ProtectedRoute from "./ProtectedRoute";
 import {
   DIRECTION_ROUTE,

@@ -81,5 +81,48 @@
       "text": "Already have an account?",
       "link": "Sign in now"
     }
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "intro": "Welcome to TOURNEST. Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal data when you use our services.",
+    "section1": {
+      "title": "1. Information We Collect",
+      "items": [
+        "Personal data (such as name, email, and contact details).",
+        "Location data to improve mapping and route services.",
+        "Usage data (such as preferences and interactions with the app)."
+      ]
+    },
+    "section2": {
+      "title": "2. How We Use Your Information",
+      "items": [
+        "Provide navigation and discovery services.",
+        "Improve user experience and personalization.",
+        "Comply with legal obligations."
+      ]
+    },
+    "section3": {
+      "title": "3. Data Security",
+      "content": "We implement industry-standard security measures to protect your personal data. However, no method of data transmission is 100% secure, and we encourage users to take precautions when sharing personal information online."
+    },
+    "section4": {
+      "title": "4. Third-Party Services",
+      "content": "We may share data with third-party services for analytics. These services adhere to strict privacy standards."
+    },
+    "section5": {
+      "title": "5. Your Rights",
+      "items": [
+        "Access, update, or delete your personal information.",
+        "Opt out of marketing communications."
+      ]
+    },
+    "section6": {
+      "title": "6. Changes to This Policy",
+      "content": "We may update our Privacy Policy periodically. Any significant changes will be communicated to users."
+    },
+    "section7": {
+      "title": "7. Contact Us",
+      "content": "If you have any questions about this Privacy Policy, please contact us at:"
+    }
   }
 }
