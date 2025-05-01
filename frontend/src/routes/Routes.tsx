@@ -3,6 +3,7 @@ import App from "../App";
 import DirectionPage from "../pages/Direction";
 import HomePage from "../pages/HomePage";
 import NotFound from "../pages/NotFound";
+import PrivacyPolicyPage from "../pages/PrivacyPolicyPage";
 import ProfilePage from "../pages/ProfilePage";
 import SignInPage from "../pages/SignInPage";
 import SignUpPage from "../pages/SignUpPage";
@@ -11,6 +12,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import {
   DIRECTION_ROUTE,
   HOME_ROUTE,
+  PRIVACY_ROUTE,
   PROFILE_ROUTE,
   SIGN_IN_ROUTE,
   SIGN_UP_ROUTE,
@@ -37,6 +39,10 @@ export const Router = () => {
         {
           path: DIRECTION_ROUTE,
           element: <DirectionPage />,
+        },
+        {
+          path: PRIVACY_ROUTE,
+          element: <PrivacyPolicyPage />,
         },
         {
           path: PROFILE_ROUTE,

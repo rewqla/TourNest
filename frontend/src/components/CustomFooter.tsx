@@ -1,11 +1,14 @@
 import { Row, Col, Typography, Flex } from "antd";
 import { Footer } from "antd/es/layout/layout";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const { Title, Text, Link } = Typography;
 
 const CustomFooter = () => {
   const { t } = useTranslation();
+
+  const navigate = useNavigate();
 
   return (
     <Footer className="footer">
@@ -40,13 +43,13 @@ const CustomFooter = () => {
               </Link>
             </Col>
             <Col>
-              <Link
+              <Text
                 className="footer-text"
-                href="https://ant.design"
-                target="_blank"
+                style={{ cursor: "pointer", color: "#1677ff" }}
+                onClick={() => navigate("/privacy")}
               >
                 {t("footer.privacyPolicy")}
-              </Link>
+              </Text>
             </Col>
           </Flex>
         </Col>
