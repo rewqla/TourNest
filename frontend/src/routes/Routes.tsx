@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "../App";
+import ContactUsPage from "../components/ContactUsPage";
 import DirectionPage from "../pages/Direction";
 import HomePage from "../pages/HomePage";
 import NotFound from "../pages/NotFound";
@@ -9,6 +10,7 @@ import SignInPage from "../pages/SignInPage";
 import SignUpPage from "../pages/SignUpPage";
 import ProtectedRoute from "./ProtectedRoute";
 import {
+  CONTACT_US_ROUTE,
   DIRECTION_ROUTE,
   HOME_ROUTE,
   PRIVACY_ROUTE,
@@ -42,6 +44,10 @@ export const Router = () => {
         {
           path: PRIVACY_ROUTE,
           element: <PrivacyPolicyPage />,
+        },
+        {
+          path: CONTACT_US_ROUTE,
+          element: <ContactUsPage />,
         },
         {
           path: PROFILE_ROUTE,

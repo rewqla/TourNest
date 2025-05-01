@@ -34,13 +34,13 @@ const CustomFooter = () => {
               </Link>
             </Col>
             <Col>
-              <Link
+              <Text
                 className="footer-text"
-                href="https://ant.design"
-                target="_blank"
+                style={{ cursor: "pointer", color: "#1677ff" }}
+                onClick={() => navigate("/contact-us")}
               >
                 {t("footer.contact")}
-              </Link>
+              </Text>
             </Col>
             <Col>
               <Text
