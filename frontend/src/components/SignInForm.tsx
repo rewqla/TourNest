@@ -1,8 +1,8 @@
 import { Form, Input, Checkbox, Button, Typography } from "antd";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
-import Link from "antd/es/typography/Link";
 import { useAuthContext } from "../context/useAuth";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const { Text } = Typography;
 
@@ -14,6 +14,7 @@ declare interface LoginInputs {
 const SignInForm = () => {
   const { t } = useTranslation();
   const { loginUser } = useAuthContext();
+  const navigate = useNavigate();
 
   const onFinish = (values: LoginInputs) => {
     loginUser(values.userName, values.password);
@@ -64,7 +65,12 @@ const SignInForm = () => {
         </Button>
         <div style={{ marginTop: "20px" }}>
           <Text>{t("login.noAccount")}</Text>{" "}
-          <Link href="/sign-up">{t("login.signUpNow")}</Link>
+          <Text
+            onClick={() => navigate("/sign-up")}
+            style={{ cursor: "pointer", color: "#1677ff" }}
+          >
+            {t("login.signUpNow")}
+          </Text>
         </div>
       </Form.Item>
     </Form>

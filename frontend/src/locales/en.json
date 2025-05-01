@@ -59,6 +59,27 @@
   },
   "signup": {
     "title": "Sign Up",
-    "subtitle": "Please fill in the form below to sign up and create an account."
+    "subtitle": "Please fill in the form below to sign up and create an account.",
+    "fields": {
+      "fullName": "Full Name",
+      "userName": "Username",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password"
+    },
+    "errors": {
+      "fullName": "Please input your full name!",
+      "userName": "Please input your username!",
+      "email": "Please input your email!",
+      "password": "Please input your password!",
+      "confirmPassword": "Please confirm your password!"
+    },
+    "actions": {
+      "submit": "Sign Up"
+    },
+    "switch": {
+      "text": "Already have an account?",
+      "link": "Sign in now"
+    }
   }
 }

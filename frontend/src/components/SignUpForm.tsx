@@ -1,8 +1,10 @@
-import { Form, Input, Checkbox, Button, Typography } from "antd";
+import { Form, Input, Button, Typography } from "antd";
 import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
-import Link from "antd/es/typography/Link";
 import { useAuthContext } from "../context/useAuth";
-const { Text, Title } = Typography;
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
+const { Text } = Typography;
 
 declare interface RegisterInputs {
   email: string;
@@ -13,11 +15,12 @@ declare interface RegisterInputs {
 
 const SignUpForm = () => {
   const { registerUser } = useAuthContext();
+  const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const onFinish = (values: RegisterInputs) => {
     const [firstName, ...remaining] = values.fullName.trim().split(" ");
     const lastName = remaining.join(" ");
-
     registerUser(
       firstName,
       lastName,
@@ -29,85 +32,80 @@ const SignUpForm = () => {
 
   return (
     <Form
-      name="normal_login"
-      initialValues={{
-        remember: true,
-      }}
+      name="signup_form"
+      initialValues={{ remember: true }}
       onFinish={onFinish}
       layout="vertical"
       requiredMark="optional"
     >
       <Form.Item
         name="fullName"
-        rules={[
-          {
-            required: true,
-            message: "Please input your Full Name!",
-          },
-        ]}
+        rules={[{ required: true, message: t("signup.errors.fullName") }]}
       >
-        <Input prefix={<UserOutlined />} placeholder="Full Name" />
+        <Input
+          prefix={<UserOutlined />}
+          placeholder={t("signup.fields.fullName")}
+        />
       </Form.Item>
+
       <Form.Item
         name="userName"
-        rules={[
-          {
-            required: true,
-            message: "Please input your Username!",
-          },
-        ]}
+        rules={[{ required: true, message: t("signup.errors.userName") }]}
       >
-        <Input prefix={<UserOutlined />} placeholder="Username" />
+        <Input
+          prefix={<UserOutlined />}
+          placeholder={t("signup.fields.userName")}
+        />
       </Form.Item>
+
       <Form.Item
         name="email"
         rules={[
-          {
-            type: "email",
-            required: true,
-            message: "Please input your Email!",
-          },
+          { type: "email", required: true, message: t("signup.errors.email") },
         ]}
       >
-        <Input prefix={<MailOutlined />} placeholder="Email" />
+        <Input
+          prefix={<MailOutlined />}
+          placeholder={t("signup.fields.email")}
+        />
       </Form.Item>
+
       <Form.Item
         name="password"
-        rules={[
-          {
-            required: true,
-            message: "Please input your Password!",
-          },
-        ]}
+        rules={[{ required: true, message: t("signup.errors.password") }]}
       >
         <Input.Password
           prefix={<LockOutlined />}
           type="password"
-          placeholder="Password"
+          placeholder={t("signup.fields.password")}
         />
       </Form.Item>
+
       <Form.Item
         name="confirmPassword"
         rules={[
-          {
-            required: true,
-            message: "Please confirm your Password!",
-          },
+          { required: true, message: t("signup.errors.confirmPassword") },
         ]}
       >
         <Input.Password
           prefix={<LockOutlined />}
           type="password"
-          placeholder="Confirm Password"
+          placeholder={t("signup.fields.confirmPassword")}
         />
       </Form.Item>
+
       <Form.Item style={{ marginBottom: "0px" }}>
-        <Button block="true" type="primary" htmlType="submit">
-          Sign Up
+        <Button block type="primary" htmlType="submit">
+          {t("signup.actions.submit")}
         </Button>
         <div style={{ marginTop: "20px" }}>
-          <Text>Already have an account?</Text>{" "}
-          <Link href="/sign-in">Sign in now</Link>
+          <Text>{t("signup.switch.text")}</Text>{" "}
+          <Text
+            onClick={() => navigate("/sign-in")}
+            style={{ cursor: "pointer", color: "#1677ff" }}
+          >
+            {t("signup.switch.link")}
+          </Text>
         </div>
       </Form.Item>
     </Form>
