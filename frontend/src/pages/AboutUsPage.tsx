@@ -1,50 +1,44 @@
-import { Layout, Typography, Card, Row, Col } from "antd";
+import { Typography, Card, Row, Col } from "antd";
+import { useTranslation } from "react-i18next";
 
 const { Title, Paragraph } = Typography;
 
 const AboutUsPage = () => {
+  const { t } = useTranslation();
+
   return (
     <>
-      <Title level={2}>About Us</Title>
-      <Paragraph>
-        Welcome to TOURNEST—your ultimate travel companion! We are passionate
-        about helping travelers explore the world with ease, offering the best
-        navigation, discovery, and experience-enhancing tools for your
-        adventures.
-      </Paragraph>
+      <Title level={2}>{t("about.title")}</Title>
+      <Paragraph>{t("about.intro")}</Paragraph>
 
       <Row gutter={[16, 16]}>
         <Col xs={24} md={12}>
           <Card>
-            <Title level={4}>Our Mission</Title>
-            <Paragraph>
-              At TOURNEST, we strive to make travel seamless and memorable.
-              Whether you're looking for hidden gems, top attractions, or the
-              best routes, our platform ensures you have everything you need to
-              make your trip extraordinary.
-            </Paragraph>
+            <Title level={4}>{t("about.missionTitle")}</Title>
+            <Paragraph>{t("about.missionText")}</Paragraph>
           </Card>
         </Col>
         <Col xs={24} md={12}>
           <Card>
-            <Title level={4}>Our Values</Title>
+            <Title level={4}>{t("about.valuesTitle")}</Title>
             <Paragraph>
-              We believe in:
+              {t("about.valuesIntro")}
               <ul>
                 <li>
-                  <strong>Innovation:</strong> Constantly improving travel
-                  experiences.
+                  <strong>{t("about.values.innovation.title")}:</strong>{" "}
+                  {t("about.values.innovation.text")}
                 </li>
                 <li>
-                  <strong>Community:</strong> Connecting travelers worldwide.
+                  <strong>{t("about.values.community.title")}:</strong>{" "}
+                  {t("about.values.community.text")}
                 </li>
                 <li>
-                  <strong>Trust:</strong> Providing reliable navigation and
-                  recommendations.
+                  <strong>{t("about.values.trust.title")}:</strong>{" "}
+                  {t("about.values.trust.text")}
                 </li>
                 <li>
-                  <strong>Sustainability:</strong> Promoting eco-friendly travel
-                  solutions.
+                  <strong>{t("about.values.sustainability.title")}:</strong>{" "}
+                  {t("about.values.sustainability.text")}
                 </li>
               </ul>
             </Paragraph>
@@ -53,13 +47,9 @@ const AboutUsPage = () => {
       </Row>
 
       <Title level={4} style={{ marginTop: "20px" }}>
-        Join Us on the Journey
+        {t("about.closingTitle")}
       </Title>
-      <Paragraph>
-        Whether you're an adventurer, a planner, or a dreamer, TOURNEST is here
-        to support your travel aspirations. Explore, discover, and experience
-        the world like never before.
-      </Paragraph>
+      <Paragraph>{t("about.closingText")}</Paragraph>
     </>
   );
 };

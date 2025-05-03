@@ -124,5 +124,43 @@
       "title": "7. Contact Us",
       "content": "If you have any questions about this Privacy Policy, please contact us at:"
     }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "intro": "Have questions or need assistance? We're here to help. Reach out via phone or email, and we’ll get back to you as soon as possible.",
+    "phoneSupportTitle": "Phone Support",
+    "emailSupportTitle": "Email Support",
+    "phoneNumber": "+123 456 7890",
+    "emailAddress": "support@tournest.com",
+    "closingTitle": "We're here for you",
+    "closingText": "Whether you need help planning your trip, navigating the app, or resolving any issues—just reach out. Our team is ready to assist you."
+  },
+  "about": {
+    "title": "About Us",
+    "intro": "Welcome to TOURNEST—your ultimate travel companion! We are passionate about helping travelers explore the world with ease, offering the best navigation, discovery, and experience-enhancing tools for your adventures.",
+    "missionTitle": "Our Mission",
+    "missionText": "At TOURNEST, we strive to make travel seamless and memorable. Whether you're looking for hidden gems, top attractions, or the best routes, our platform ensures you have everything you need to make your trip extraordinary.",
+    "valuesTitle": "Our Values",
+    "valuesIntro": "We believe in:",
+    "values": {
+      "innovation": {
+        "title": "Innovation",
+        "text": "Constantly improving travel experiences."
+      },
+      "community": {
+        "title": "Community",
+        "text": "Connecting travelers worldwide."
+      },
+      "trust": {
+        "title": "Trust",
+        "text": "Providing reliable navigation and recommendations."
+      },
+      "sustainability": {
+        "title": "Sustainability",
+        "text": "Promoting eco-friendly travel solutions."
+      }
+    },
+    "closingTitle": "Join Us on the Journey",
+    "closingText": "Whether you're an adventurer, a planner, or a dreamer, TOURNEST is here to support your travel aspirations. Explore, discover, and experience the world like never before."
   }
 }

@@ -3,7 +3,7 @@ import { Footer } from "antd/es/layout/layout";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
-const { Title, Text, Link } = Typography;
+const { Title, Text } = Typography;
 
 const CustomFooter = () => {
   const { t } = useTranslation();
