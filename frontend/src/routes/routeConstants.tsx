@@ -7,3 +7,4 @@ export const DIRECTION_ROUTE: Readonly<string> = "/direction";
 export const PRIVACY_ROUTE: Readonly<string> = "/privacy";
 export const CONTACT_US_ROUTE: Readonly<string> = "/contact-us";
 export const ABOUT_US_ROUTE: Readonly<string> = "/about-us";
+export const DISCOVER_ROUTE: Readonly<string> = "/discover";

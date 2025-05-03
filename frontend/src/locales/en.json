@@ -162,5 +162,21 @@
     },
     "closingTitle": "Join Us on the Journey",
     "closingText": "Whether you're an adventurer, a planner, or a dreamer, TOURNEST is here to support your travel aspirations. Explore, discover, and experience the world like never before."
+  },
+  "discover": {
+    "title": "Change History",
+    "description": "Here you can view the latest updates, improvements, and changes we've made to the TOURNEST platform.",
+    "update1": {
+      "title": "Added 'Contact Us' Page",
+      "content": "You can now easily reach our support team via the new contact page with phone and email."
+    },
+    "update2": {
+      "title": "Improved Route Interface",
+      "content": "We've optimized the route UI for a better user experience"
+    },
+    "update3": {
+      "title": "Ukrainian Localization Added",
+      "content": "TOURNEST is now available in Ukrainian. Use the language switcher in the top-right corner."
+    }
   }
 }

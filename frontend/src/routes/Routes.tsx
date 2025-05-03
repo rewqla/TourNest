@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "../App";
 import ContactUsPage from "../components/ContactUsPage";
+import DiscoverPage from "../components/DiscoverPage";
 import AboutUsPage from "../pages/AboutUsPage";
 import DirectionPage from "../pages/Direction";
 import HomePage from "../pages/HomePage";
@@ -14,6 +15,7 @@ import {
   ABOUT_US_ROUTE,
   CONTACT_US_ROUTE,
   DIRECTION_ROUTE,
+  DISCOVER_ROUTE,
   HOME_ROUTE,
   PRIVACY_ROUTE,
   PROFILE_ROUTE,
@@ -54,6 +56,10 @@ export const Router = () => {
         {
           path: ABOUT_US_ROUTE,
           element: <AboutUsPage />,
+        },
+        {
+          path: DISCOVER_ROUTE,
+          element: <DiscoverPage />,
         },
         {
           path: PROFILE_ROUTE,
