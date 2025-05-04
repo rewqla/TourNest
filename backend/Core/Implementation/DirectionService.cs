@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using Contract;
+using Contract.Enums;
 using Core.Interfaces;
 using Core.Mapping;
 using Core.Models;
@@ -26,6 +27,7 @@ public class DirectionService : IDirectionService
         Location startLocation,
         Location endLocation,
         List<string> categories,
+        RouteType routeType,
         int maxDetourDistance = 2000,
         int maxPlacesToVisit = 4)
     {
@@ -57,7 +59,7 @@ public class DirectionService : IDirectionService
         waypoints.AddRange(selectedPlaces.Select(x => x.Location)); // додаємо вибрані місця
         waypoints.Add(endLocation);
 
-        var routeWithWaypoints = await _mapboxService.GetOptimizedRouteWithWaypointsAsync(waypoints);
+        var routeWithWaypoints = await _mapboxService.GetOptimizedRouteWithWaypointsAsync(waypoints, routeType);
 
         // Create and return response
         return new DirectionResult
@@ -141,13 +143,13 @@ public class DirectionService : IDirectionService
     }
 
     private async Task<RouteResult> CreateOptimalRouteWithWaypoints(
-        Location start, Location end, List<Place> places)
+        Location start, Location end, List<Place> places, RouteType routeType)
     {
         // Step 1: Add waypoints in optimal order
         var orderedWaypoints = OptimizeWaypointOrder(start, end, places);
 
         // Step 2: Get route with all waypoints
-        return await _mapboxService.GetRouteWithWaypointsAsync(orderedWaypoints.Select(x => x.Location).ToList());
+        return await _mapboxService.GetRouteWithWaypointsAsync(orderedWaypoints.Select(x => x.Location).ToList(), routeType);
     }
 
     private List<Place> OptimizeWaypointOrder(Location start, Location end, List<Place> places)

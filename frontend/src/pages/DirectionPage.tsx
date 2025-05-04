@@ -153,7 +153,7 @@ const DirectionPage = () => {
       categories: selectedCategories,
       maxDetourDistance: 2000,
       maxPlacesToVisit: selectedCategories.length,
-      routeType: routeType, // <-- new property to specify route type
+      routeType: routeType,
     };
 
     setIsLoading(true);
@@ -218,8 +218,7 @@ const DirectionPage = () => {
         const marker = new mapboxgl.Marker({ color: "#f59e0b" })
           .setLngLat([lng, lat])
           .addTo(map);
-        const title =
-          i + ") " + place.name + " " + (place.categories[0]?.name || "Place");
+        const title = place.name + " " + (place.categories[0]?.name || "Place");
         marker.getElement().setAttribute("title", title);
         newMarkers.push(marker);
         i++;

@@ -1,4 +1,5 @@
-﻿using Core.Interfaces;
+﻿using Contract.Enums;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Models;
 
@@ -17,8 +18,10 @@ public static class DirectionEndpoint
                         request.StartLocation,
                         request.EndLocation,
                         request.Categories,
+                        request.RouteType,
                         request.MaxDetourDistance,
-                        request.MaxPlacesToVisit);
+                        request.MaxPlacesToVisit
+                    );
 
                     return Results.Ok(response);
                 }

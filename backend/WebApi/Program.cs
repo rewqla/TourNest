@@ -26,6 +26,12 @@ builder.Services.AddRefitClient<IMapboxApi>()
         client.BaseAddress = new Uri("https://api.mapbox.com");
     });
 
+builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
+{
+    options.SerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+});
+
+
 var app = builder.Build();
 
 app.MapPlaceEndpoints();

@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Text;
 using Contract;
+using Contract.Enums;
 using Core.Interfaces;
 using Core.Models;
 using ExternalApis;
@@ -44,7 +45,7 @@ public class MapboxService : IMapboxService
         }
     }
 
-    public async Task<RouteResult> GetRouteWithWaypointsAsync(List<Location> waypoints)
+    public async Task<RouteResult> GetRouteWithWaypointsAsync(List<Location> waypoints, RouteType routeType)
     {
         try
         {
@@ -65,7 +66,7 @@ public class MapboxService : IMapboxService
             }
 
             var response = await _mapboxApi.GetDirectionsAsync(
-                "driving",
+                routeType.ToString(),
                 coordinatesBuilder.ToString(),
                 "true",
                 "geojson",
@@ -81,7 +82,7 @@ public class MapboxService : IMapboxService
         }
     }
 
-    public async Task<RouteResult> GetOptimizedRouteWithWaypointsAsync(List<Location> waypoints)
+    public async Task<RouteResult> GetOptimizedRouteWithWaypointsAsync(List<Location> waypoints, RouteType routeType)
     {
         if (waypoints == null || waypoints.Count < 2)
             throw new ArgumentException("At least start and end points are required");
@@ -94,7 +95,7 @@ public class MapboxService : IMapboxService
 
         var coordinates = string.Join(";", changedWaypoints.Select(w => $"{w.Lng},{w.Lat}"));
         var result = await _mapboxApi.GetOptimizedRouteAsync(
-            profile: "driving",
+            profile: routeType.ToString().ToLowerInvariant(),
             coordinates: coordinates,
             accessToken: _apiKey,
             roundtrip: "false",
