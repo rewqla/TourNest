@@ -1,9 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "../App";
-import ContactUsPage from "../components/ContactUsPage";
-import DiscoverPage from "../components/DiscoverPage";
+import ContactUsPage from "../pages/ContactUsPage";
+import DiscoverPage from "../pages/DiscoverPage";
 import AboutUsPage from "../pages/AboutUsPage";
-import DirectionPage from "../pages/Direction";
+import DirectionPage from "../pages/DirectionPage";
 import HomePage from "../pages/HomePage";
 import NotFound from "../pages/NotFound";
 import PrivacyPolicyPage from "../pages/PrivacyPolicyPage";

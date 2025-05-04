@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import {
@@ -14,13 +14,15 @@ import {
   Radio,
 } from "antd";
 import {
-  EnvironmentOutlined,
-  AimOutlined,
   CarOutlined,
+  AimOutlined,
+  EnvironmentOutlined,
+  SkinOutlined,
+  ThunderboltOutlined,
 } from "@ant-design/icons";
 
-const { Header, Content } = Layout;
-const { Title, Text } = Typography;
+const { Content } = Layout;
+const { Text } = Typography;
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY;
 
@@ -36,7 +38,7 @@ const categoryOptions = [
 ];
 
 const DirectionPage = () => {
-  const [map, setMap] = React.useState<mapboxgl.Map>();
+  const [map, setMap] = useState<mapboxgl.Map>();
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -50,15 +52,27 @@ const DirectionPage = () => {
   );
   const pointSelectionRef = useRef(pointSelection);
 
+  const [routeType, setRouteType] = useState<string>("driving");
+
   const startMarker = useRef<mapboxgl.Marker | null>(null);
   const endMarker = useRef<mapboxgl.Marker | null>(null);
 
-  const mapNode = React.useRef(null);
+  const mapNode = useRef(null);
 
-  // Initialize map when component mounts
+  const getRouteIcon = () => {
+    switch (routeType) {
+      case "walking":
+        return <SkinOutlined />;
+      case "cycling":
+        return <ThunderboltOutlined />;
+      default:
+        return <CarOutlined />;
+    }
+  };
+
+  // Initialize map on mount
   useEffect(() => {
     const node = mapNode.current;
-
     if (typeof window === "undefined" || node === null) return;
 
     const mapboxMap = new mapboxgl.Map({
@@ -71,7 +85,6 @@ const DirectionPage = () => {
 
     mapboxMap.on("click", (e) => {
       const coords: [number, number] = [e.lngLat.lng, e.lngLat.lat];
-
       if (pointSelectionRef.current === "start") {
         setStartPoint(coords);
         if (startMarker.current) {
@@ -106,27 +119,15 @@ const DirectionPage = () => {
 
   const handleClearMap = () => {
     if (!map) return;
-
-    // Remove start and end markers
+    // Remove markers and layers
     startMarker.current?.remove();
     startMarker.current = null;
-
     endMarker.current?.remove();
     endMarker.current = null;
-
-    // Remove route layer
-    if (map.getLayer("route-line")) {
-      map.removeLayer("route-line");
-    }
-    if (map.getSource("route")) {
-      map.removeSource("route");
-    }
-
-    // Remove visit markers
+    if (map.getLayer("route-line")) map.removeLayer("route-line");
+    if (map.getSource("route")) map.removeSource("route");
     visitMarkers.forEach((marker) => marker.remove());
     setVisitMarkers([]);
-
-    // Reset state
     setStartPoint(null);
     setEndPoint(null);
     setDistance(0);
@@ -139,6 +140,7 @@ const DirectionPage = () => {
       return;
     }
 
+    // Build request payload including the selected route type
     const directionRequest = {
       startLocation: {
         lat: startPoint[1].toString(),
@@ -151,6 +153,7 @@ const DirectionPage = () => {
       categories: selectedCategories,
       maxDetourDistance: 2000,
       maxPlacesToVisit: selectedCategories.length,
+      routeType: routeType, // <-- new property to specify route type
     };
 
     setIsLoading(true);
@@ -174,20 +177,14 @@ const DirectionPage = () => {
       console.log("Route data:", result);
 
       setDistance(result.totalDistance / 1000);
-
       setDuration(result.estimatedTime);
 
       if (!map) return;
 
-      // Remove previous route layer if it exists
-      if (map.getLayer("route-line")) {
-        map.removeLayer("route-line");
-      }
-      if (map.getSource("route")) {
-        map.removeSource("route");
-      }
+      // Clear previous route if exists
+      if (map.getLayer("route-line")) map.removeLayer("route-line");
+      if (map.getSource("route")) map.removeSource("route");
 
-      // Add new route as a line
       map.addSource("route", {
         type: "geojson",
         data: {
@@ -213,22 +210,16 @@ const DirectionPage = () => {
       // Add place markers
       visitMarkers.forEach((marker) => marker.remove());
       setVisitMarkers([]);
-
       const newMarkers: mapboxgl.Marker[] = [];
-
       let i = 1;
       result.placesToVisit.forEach((place) => {
-        console.log(place);
         let lat = parseFloat(place.location.lat.replace(",", "."));
         let lng = parseFloat(place.location.lng.replace(",", "."));
-
-        const marker = new mapboxgl.Marker({ color: "#f59e0b" }) // yellow-orange
+        const marker = new mapboxgl.Marker({ color: "#f59e0b" })
           .setLngLat([lng, lat])
           .addTo(map);
-
         const title =
           i + ") " + place.name + " " + (place.categories[0]?.name || "Place");
-
         marker.getElement().setAttribute("title", title);
         newMarkers.push(marker);
         i++;
@@ -236,7 +227,7 @@ const DirectionPage = () => {
 
       setVisitMarkers(newMarkers);
 
-      // Fit bounds around the full route
+      // Fit bounds around the route
       const bounds = new mapboxgl.LngLatBounds();
       result.route.steps.forEach((step) => {
         bounds.extend([step.location.lng, step.location.lat]);
@@ -285,9 +276,7 @@ const DirectionPage = () => {
                 </div>
                 <Radio.Group
                   value={pointSelection}
-                  onChange={(e) => {
-                    setPointSelection(e.target.value);
-                  }}
+                  onChange={(e) => setPointSelection(e.target.value)}
                   optionType="button"
                   buttonStyle="solid"
                 >
@@ -308,6 +297,24 @@ const DirectionPage = () => {
                       options={categoryOptions}
                       value={selectedCategories}
                       onChange={setSelectedCategories}
+                    />
+                  </div>
+                </div>
+
+                <Divider />
+
+                <div>
+                  <Text strong>Route Type:</Text>
+                  <div style={{ marginTop: 8 }}>
+                    <Select
+                      value={routeType}
+                      onChange={setRouteType}
+                      style={{ width: "100%" }}
+                      options={[
+                        { value: "driving", label: "Car" },
+                        { value: "walking", label: "On Foot" },
+                        { value: "cycling", label: "Cycling" },
+                      ]}
                     />
                   </div>
                 </div>
@@ -336,7 +343,7 @@ const DirectionPage = () => {
 
                 <Button
                   type="primary"
-                  icon={<CarOutlined />}
+                  icon={getRouteIcon()}
                   block
                   size="large"
                   onClick={handleGenerateRoute}
