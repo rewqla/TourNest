@@ -176,7 +176,11 @@
     },
     "update3": {
       "title": "Ukrainian Localization Added",
-      "content": "TOURNEST is now available in Ukrainian. Use the language switcher in the top-right corner."
+      "content": "TOURNEST is now available in Ukrainian!!!"
+    },
+    "update4": {
+      "title": "Added Support for Route Type Selection",
+      "content": "You can now choose between driving, walking, or cycling when generating a route. This gives you more flexibility depending on how you plan to travel."
     }
   }
 }

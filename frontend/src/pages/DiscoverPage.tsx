@@ -8,9 +8,14 @@ const DiscoverPage = () => {
 
   const updates = [
     {
+      date: "2025-05-04",
+      title: t("discover.update4.title"),
+      content: t("discover.update4.content"),
+    },
+    {
       date: "2025-04-29",
-      title: t("discover.update1.title"),
-      content: t("discover.update1.content"),
+      title: t("discover.update3.title"),
+      content: t("discover.update3.content"),
     },
     {
       date: "2025-04-20",
@@ -19,8 +24,8 @@ const DiscoverPage = () => {
     },
     {
       date: "2025-04-10",
-      title: t("discover.update3.title"),
-      content: t("discover.update3.content"),
+      title: t("discover.update1.title"),
+      content: t("discover.update1.content"),
     },
   ];
 
