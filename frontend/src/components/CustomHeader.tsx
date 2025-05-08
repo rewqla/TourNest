@@ -120,7 +120,7 @@ const CustomHeader = () => {
             {t("header.mapAndDirection")}
           </Text>
 
-          {isLoggedIn() ? (
+          {/* {isLoggedIn() ? (
             <Dropdown menu={{ items: userItems }} placement="bottomRight">
               <Text
                 style={{
@@ -145,7 +145,7 @@ const CustomHeader = () => {
             >
               {t("header.account")}
             </Text>
-          )}
+          )} */}
         </Flex>
       </Row>
     </nav>
