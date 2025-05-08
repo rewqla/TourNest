@@ -20,22 +20,11 @@ import {
   SkinOutlined,
   ThunderboltOutlined,
 } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 
 const { Content } = Layout;
 const { Text } = Typography;
-
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY;
-
-const categoryOptions = [
-  { value: "restaurant", label: "Restaurants" },
-  { value: "cafe", label: "Cafes" },
-  { value: "atm", label: "ATM" },
-  { value: "theatre", label: "Theatre" },
-  { value: "hotel", label: "Hotel" },
-  { value: "museum", label: "Museums" },
-  { value: "park", label: "Parks" },
-  { value: "shopping", label: "Shopping" },
-];
 
 const getRouteIcon = (type: string) => {
   switch (type) {
@@ -66,6 +55,19 @@ const DirectionPage = () => {
   const startMarker = useRef<mapboxgl.Marker | null>(null);
   const endMarker = useRef<mapboxgl.Marker | null>(null);
   const mapContainer = useRef(null);
+
+  const { t } = useTranslation();
+
+  const categoryOptions = [
+    { value: "restaurant", label: t("route.restaurants") },
+    { value: "cafe", label: t("route.cafes") },
+    { value: "atm", label: t("route.atm") },
+    { value: "theatre", label: t("route.theatre") },
+    { value: "hotel", label: t("route.hotel") },
+    { value: "museum", label: t("route.museum") },
+    { value: "park", label: t("route.parks") },
+    { value: "shopping", label: t("route.shopping") },
+  ];
 
   useEffect(() => {
     pointSelectionRef.current = pointSelection;
@@ -212,24 +214,24 @@ const DirectionPage = () => {
       <Content className="p-6">
         <Row gutter={[16, 16]}>
           <Col xs={24} lg={6}>
-            <Card title="Route Configuration">
+            <Card title={t("route.routeConfiguration")}>
               <Space direction="vertical" size="large" className="w-full">
                 <Text strong>
-                  <EnvironmentOutlined /> Start Point:
+                  <EnvironmentOutlined /> {t("route.startPoint")}
                 </Text>
                 <Text type="secondary">
                   {startPoint
                     ? `${startPoint[1].toFixed(5)}, ${startPoint[0].toFixed(5)}`
-                    : "Click on the map to select"}
+                    : t("route.clickToSelect")}
                 </Text>
 
                 <Text strong>
-                  <AimOutlined /> End Point:
+                  <AimOutlined /> {t("route.endPoint")}
                 </Text>
                 <Text type="secondary">
                   {endPoint
                     ? `${endPoint[1].toFixed(5)}, ${endPoint[0].toFixed(5)}`
-                    : "Click on the map to select"}
+                    : t("route.clickToSelect")}
                 </Text>
 
                 <Radio.Group
@@ -238,45 +240,54 @@ const DirectionPage = () => {
                   optionType="button"
                   buttonStyle="solid"
                 >
-                  <Radio.Button value="start">Set Start</Radio.Button>
-                  <Radio.Button value="end">Set End</Radio.Button>
+                  <Radio.Button value="start">
+                    {t("route.setStart")}
+                  </Radio.Button>
+                  <Radio.Button value="end">{t("route.setEnd")}</Radio.Button>
                 </Radio.Group>
 
                 <Divider />
 
-                <Text strong>Categories to Visit:</Text>
+                <Text strong>{t("route.categoriesToVisit")}</Text>
                 <Select
                   allowClear
                   mode="multiple"
-                  placeholder="Select categories"
+                  placeholder={t("route.categoriesToVisit")}
                   style={{ width: "100%" }}
-                  options={categoryOptions}
+                  options={categoryOptions.map((opt) => ({
+                    ...opt,
+                    label: t(`route.${opt.value}`),
+                  }))}
                   value={selectedCategories}
                   onChange={setSelectedCategories}
                 />
 
                 <Divider />
 
-                <Text strong>Route Type:</Text>
+                <Text strong>{t("route.routeType")}</Text>
                 <Select
                   value={routeType}
                   onChange={setRouteType}
                   style={{ width: "100%" }}
                   options={[
-                    { value: "driving", label: "Car" },
-                    { value: "walking", label: "On Foot" },
-                    { value: "cycling", label: "Cycling" },
+                    { value: "driving", label: t("route.car") },
+                    { value: "walking", label: t("route.walking") },
+                    { value: "cycling", label: t("route.cycling") },
                   ]}
                 />
 
                 <Divider />
 
-                <Text strong>Estimated Distance:</Text>
-                <Text>{distance ? `${distance.toFixed(2)} km` : "—"}</Text>
-
-                <Text strong>Estimated Time:</Text>
+                <Text strong>{t("route.estimatedDistance")}</Text>
                 <Text>
-                  {duration ? `${Math.floor(duration / 60)} min` : "—"}
+                  {distance ? `${distance.toFixed(2)} ${t("route.km")}` : "—"}
+                </Text>
+
+                <Text strong>{t("route.estimatedTime")}</Text>
+                <Text>
+                  {duration
+                    ? `${Math.floor(duration / 60)} ${t("route.min")}`
+                    : "—"}
                 </Text>
 
                 <Button
@@ -290,11 +301,11 @@ const DirectionPage = () => {
                     !startPoint || !endPoint || !selectedCategories.length
                   }
                 >
-                  Generate Route
+                  {t("route.generateRoute")}
                 </Button>
 
                 <Button danger block size="large" onClick={clearMap}>
-                  Clear Map
+                  {t("route.clearMap")}
                 </Button>
               </Space>
             </Card>

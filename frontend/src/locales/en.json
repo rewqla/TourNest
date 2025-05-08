@@ -182,5 +182,32 @@
       "title": "Added Support for Route Type Selection",
       "content": "You can now choose between driving, walking, or cycling when generating a route. This gives you more flexibility depending on how you plan to travel."
     }
+  },
+  "route": {
+    "routeConfiguration": "Route Configuration",
+    "startPoint": "Start Point:",
+    "endPoint": "End Point:",
+    "clickToSelect": "Click on the map to select",
+    "setStart": "Set Start",
+    "setEnd": "Set End",
+    "categoriesToVisit": "Categories to Visit:",
+    "routeType": "Route Type:",
+    "estimatedDistance": "Estimated Distance:",
+    "estimatedTime": "Estimated Time:",
+    "generateRoute": "Generate Route",
+    "clearMap": "Clear Map",
+    "car": "Car",
+    "walking": "On Foot",
+    "cycling": "Cycling",
+    "restaurant": "Restaurants",
+    "cafe": "Cafes",
+    "atm": "ATM",
+    "theatre": "Theatre",
+    "hotel": "Hotel",
+    "museum": "Museums",
+    "park": "Parks",
+    "shopping": "Shopping",
+    "min": "min",
+    "km": "km"
   }
 }
