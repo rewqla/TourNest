@@ -180,19 +180,46 @@ const DirectionPage = () => {
         paint: { "line-color": "#3b82f6", "line-width": 4 },
       });
 
-      visitMarkers.forEach((marker) => marker.remove());
       const newMarkers = result.placesToVisit.map((place) => {
         const lat = parseFloat(place.location.lat.replace(",", "."));
         const lng = parseFloat(place.location.lng.replace(",", "."));
-        const marker = new mapboxgl.Marker({ color: "#f59e0b" })
+
+        // Create container div
+        const container = document.createElement("div");
+        container.style.display = "flex";
+        container.style.flexDirection = "column";
+        container.style.alignItems = "center";
+        container.style.textAlign = "center";
+
+        // Create label
+        const label = document.createElement("div");
+        label.innerText = place.name;
+        label.style.backgroundColor = "#f59e0b";
+        label.style.color = "white";
+        label.style.padding = "4px 8px";
+        label.style.borderRadius = "4px";
+        label.style.fontSize = "12px";
+        label.style.fontWeight = "bold";
+        label.style.whiteSpace = "nowrap";
+        label.style.boxShadow = "0 2px 4px rgba(0,0,0,0.2)";
+        label.style.marginBottom = "4px";
+
+        // Create pin
+        const pin = document.createElement("div");
+        pin.style.width = "12px";
+        pin.style.height = "12px";
+        pin.style.borderRadius = "50%";
+        pin.style.backgroundColor = "#f59e0b";
+        pin.style.boxShadow = "0 0 3px rgba(0,0,0,0.4)";
+
+        container.appendChild(label);
+        container.appendChild(pin);
+
+        // Create the Mapbox marker
+        const marker = new mapboxgl.Marker({ element: container })
           .setLngLat([lng, lat])
           .addTo(map);
-        marker
-          .getElement()
-          .setAttribute(
-            "title",
-            `${place.name} (${place.categories[0]?.name || "Place"})`
-          );
+
         return marker;
       });
 
