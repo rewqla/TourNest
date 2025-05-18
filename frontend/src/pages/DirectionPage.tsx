@@ -21,6 +21,7 @@ import {
   ThunderboltOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
+import RouteInfoMarker from "../components/RouteInfoMarker";
 
 const { Content } = Layout;
 const { Text } = Typography;
@@ -211,6 +212,14 @@ const DirectionPage = () => {
         speed: 1.2,
         curve: 1.5,
       });
+
+      RouteInfoMarker({
+        map,
+        routeType: routeType as "driving" | "walking" | "cycling",
+        distance: parseFloat((result.totalDistance / 1000).toFixed(1)),
+        duration: result.estimatedTime,
+        coordinates: result.route.geometry.coordinates,
+      });
     } catch (err) {
       console.error("Error:", err);
     } finally {
@@ -271,8 +280,6 @@ const DirectionPage = () => {
                   onChange={setSelectedCategories}
                 />
 
-                <Divider />
-
                 <Text strong>{t("route.routeType")}</Text>
                 <Select
                   value={routeType}
@@ -285,7 +292,7 @@ const DirectionPage = () => {
                   ]}
                 />
 
-                <Divider />
+                {/* <Divider />
 
                 <Text strong>{t("route.estimatedDistance")}</Text>
                 <Text>
@@ -297,7 +304,7 @@ const DirectionPage = () => {
                   {duration
                     ? `${Math.floor(duration / 60)} ${t("route.min")}`
                     : "—"}
-                </Text>
+                </Text> */}
 
                 <Button
                   type="primary"
