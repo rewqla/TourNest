@@ -216,7 +216,12 @@ const DirectionPage = () => {
         container.appendChild(pin);
 
         // Create the Mapbox marker
-        const marker = new mapboxgl.Marker({ element: container })
+        const offsetLat = lat + (Math.random() - 0.5) * 0.0002;
+        const offsetLng = lng + (Math.random() - 0.5) * 0.0002;
+        const marker = new mapboxgl.Marker({
+          element: container,
+          offset: [0, -20],
+        })
           .setLngLat([lng, lat])
           .addTo(map);
 
