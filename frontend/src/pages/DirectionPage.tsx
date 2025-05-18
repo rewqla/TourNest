@@ -201,7 +201,16 @@ const DirectionPage = () => {
       result.route.steps.forEach((step) =>
         bounds.extend([step.location.lng, step.location.lat])
       );
-      map.fitBounds(bounds, { padding: 50 });
+
+      map.flyTo({
+        center:
+          result.route.geometry.coordinates[
+            Math.floor(result.route.geometry.coordinates.length / 2)
+          ],
+        zoom: 14,
+        speed: 1.2,
+        curve: 1.5,
+      });
     } catch (err) {
       console.error("Error:", err);
     } finally {
