@@ -135,6 +135,8 @@ const DirectionPage = () => {
   const generateRoute = async () => {
     if (!startPoint || !endPoint) return;
 
+    clearMap();
+
     const requestPayload = {
       startLocation: {
         lat: startPoint[1].toString(),
