@@ -116,17 +116,21 @@ const DirectionPage = () => {
     return () => mapInstance.remove();
   }, []);
 
-  const clearMap = () => {
+  const clearMap = (clearInitial: boolean) => {
     if (!map) return;
 
-    startMarker.current?.remove();
-    endMarker.current?.remove();
+    if (clearInitial) {
+      startMarker.current?.remove();
+      endMarker.current?.remove();
+
+      setStartPoint(null);
+      setEndPoint(null);
+    }
+
     map.getLayer("route-line") && map.removeLayer("route-line");
     map.getSource("route") && map.removeSource("route");
     visitMarkers.forEach((m) => m.remove());
 
-    setStartPoint(null);
-    setEndPoint(null);
     setVisitMarkers([]);
     setDistance(0);
     setDuration(0);
@@ -135,7 +139,7 @@ const DirectionPage = () => {
   const generateRoute = async () => {
     if (!startPoint || !endPoint) return;
 
-    clearMap();
+    clearMap(false);
 
     const requestPayload = {
       startLocation: {
@@ -224,7 +228,7 @@ const DirectionPage = () => {
           element: container,
           offset: [0, -20],
         })
-          .setLngLat([lng, lat])
+          .setLngLat([offsetLng, offsetLat])
           .addTo(map);
 
         return marker;
@@ -354,7 +358,12 @@ const DirectionPage = () => {
                   {t("route.generateRoute")}
                 </Button>
 
-                <Button danger block size="large" onClick={clearMap}>
+                <Button
+                  danger
+                  block
+                  size="large"
+                  onClick={() => clearMap(true)}
+                >
                   {t("route.clearMap")}
                 </Button>
               </Space>
