@@ -9,5 +9,6 @@ public interface IPlacesService
         Location startLocation,
         Location endLocation,
         List<string> categories,
+        string language,
         int maxDistance = 2000);
 }

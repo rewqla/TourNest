@@ -17,10 +17,12 @@ public class HerePlacesService : IPlacesService
         _herePlacesApi = herePlacesApi;
         _apiKey = configuration["Here:ApiKey"] ?? throw new ArgumentNullException("HERE API key is not configured");
     }
+
     public async Task<List<Place>> FindPlacesNearRouteAsync(
         Location startLocation,
         Location endLocation,
         List<string> categories,
+        string language,
         int maxDistance = 2000)
     {
         try
@@ -28,12 +30,12 @@ public class HerePlacesService : IPlacesService
             var result = new List<Place>();
 
             // Strategy: Find places near both start and end points, and at midpoint
-            var startPlaces = await FindPlacesNearPointAsync(startLocation, categories, maxDistance);
-            var endPlaces = await FindPlacesNearPointAsync(endLocation, categories, maxDistance);
+            var startPlaces = await FindPlacesNearPointAsync(startLocation, categories, language, maxDistance);
+            var endPlaces = await FindPlacesNearPointAsync(endLocation, categories, language, maxDistance);
 
             // Calculate midpoint
             var midPoint = CalculateMidpoint(startLocation, endLocation);
-            var midPlaces = await FindPlacesNearPointAsync(midPoint, categories, maxDistance);
+            var midPlaces = await FindPlacesNearPointAsync(midPoint, categories, language, maxDistance);
 
             // Combine all places, removing duplicates by ID
             return startPlaces
@@ -53,6 +55,7 @@ public class HerePlacesService : IPlacesService
     private async Task<List<Place>> FindPlacesNearPointAsync(
         Location location,
         List<string> categories,
+        string language,
         int radius)
     {
         var result = new List<Place>();
@@ -67,7 +70,8 @@ public class HerePlacesService : IPlacesService
                     category,
                     10,
                     radius,
-                    _apiKey);
+                    _apiKey,
+                    language);
 
                 if (response?.Items != null)
                 {
@@ -85,7 +89,7 @@ public class HerePlacesService : IPlacesService
                             },
                             Categories = item.Categories,
                             Distance = item.Distance,
-                            Rating = 4.0 
+                            Rating = 4.0
                         });
                     }
                 }

@@ -1,5 +1,4 @@
-﻿
-using Contract;
+﻿using Contract;
 using Contract.Enums;
 
 namespace WebApi.Models;
@@ -8,8 +7,9 @@ public class DirectionRequest
 {
     public Location StartLocation { get; set; }
     public Location EndLocation { get; set; }
-    public List<string> Categories { get; set; } 
-    public int MaxDetourDistance { get; set; } = 2000; 
-    public int MaxPlacesToVisit { get; set; } = 4; 
+    public List<string> Categories { get; set; }
+    public int MaxDetourDistance { get; set; } = 2000;
+    public int MaxPlacesToVisit { get; set; } = 4;
+    public string Language { get; set; }
     public RouteType RouteType { get; set; } = RouteType.Driving;
 }

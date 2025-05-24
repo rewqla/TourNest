@@ -11,6 +11,7 @@ namespace ExternalApis
         [Query] string q,
         [Query] int limit,
         [Query] int radius,
-        [Query] string apikey);
+        [Query] string apikey,
+        [Query] string lang);
     }
 }

@@ -19,6 +19,7 @@ public static class DirectionEndpoint
                         request.EndLocation,
                         request.Categories,
                         request.RouteType,
+                        request.Language,
                         request.MaxDetourDistance,
                         request.MaxPlacesToVisit
                     );

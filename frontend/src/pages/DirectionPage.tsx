@@ -192,6 +192,7 @@ const DirectionPage = () => {
       maxDetourDistance: 2000,
       maxPlacesToVisit: selectedCategories.length,
       routeType,
+      language: i18n.language || "en",
     };
 
     setIsLoading(true);

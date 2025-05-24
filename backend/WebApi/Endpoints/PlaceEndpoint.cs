@@ -30,7 +30,7 @@ public static class PlaceEndpoint
                 var location = new Location { Lat = lat, Lng = lng };
                 var categoryList = categories.Split(',').ToList();
 
-                var places = await service.FindPlacesNearRouteAsync(location, location, categoryList, radius);
+                var places = await service.FindPlacesNearRouteAsync(location, location, categoryList, "en", radius);
 
                 return Results.Ok(places);
             }

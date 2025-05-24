@@ -28,6 +28,7 @@ public class DirectionService : IDirectionService
         Location endLocation,
         List<string> categories,
         RouteType routeType,
+        string language,
         int maxDetourDistance = 2000,
         int maxPlacesToVisit = 4)
     {
@@ -46,7 +47,7 @@ public class DirectionService : IDirectionService
 
         // Step 2: Find interesting places near the route
         var placesNearRoute = await _placesService.FindPlacesNearRouteAsync(
-            startLocation, endLocation, categories, maxDetourDistance);
+            startLocation, endLocation, categories,language, maxDetourDistance);
 
         // Step 3: Select top places to visit based on ratings and distance from route
         var selectedPlaces = SelectBestPlaces(placesNearRoute, maxPlacesToVisit, categories);
