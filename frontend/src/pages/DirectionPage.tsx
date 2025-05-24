@@ -38,6 +38,30 @@ const getRouteIcon = (type: string) => {
   }
 };
 
+const languageLayerMap = {
+  uk: {
+    field: "name_uk",
+  },
+  en: {
+    field: "name_en",
+  },
+};
+
+const labelLayers = [
+  "country-label",
+  "state-label",
+  "settlement-label",
+  "settlement-subdivision-label",
+  "airport-label",
+  "poi-label",
+  "water-point-label",
+  "water-line-label",
+  "natural-point-label",
+  "natural-line-label",
+  "waterway-label",
+  "road-label",
+];
+
 const DirectionPage = () => {
   const [map, setMap] = useState<mapboxgl.Map>();
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -57,7 +81,7 @@ const DirectionPage = () => {
   const endMarker = useRef<mapboxgl.Marker | null>(null);
   const mapContainer = useRef(null);
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const categoryOptions = [
     { value: "restaurant", label: t("route.restaurants") },
@@ -73,6 +97,23 @@ const DirectionPage = () => {
   useEffect(() => {
     pointSelectionRef.current = pointSelection;
   }, [pointSelection]);
+
+  useEffect(() => {
+    if (!map) return;
+
+    const lang = i18n.language || "en";
+    const nameField = languageLayerMap[lang]?.field || "name";
+
+    labelLayers.forEach((layerId) => {
+      if (map.getLayer(layerId)) {
+        map.setLayoutProperty(layerId, "text-field", [
+          "coalesce",
+          ["get", nameField],
+          ["get", "name"],
+        ]);
+      }
+    });
+  }, [map, i18n.language]);
 
   useEffect(() => {
     const node = mapContainer.current;
