@@ -47,14 +47,14 @@ public class DirectionService : IDirectionService
 
         // Step 2: Find interesting places near the route
         var placesNearRoute = await _placesService.FindPlacesNearRouteAsync(
-            startLocation, endLocation, categories,language, maxDetourDistance);
+            startLocation, endLocation, categories, language, maxDetourDistance);
 
         // Step 3: Select top places to visit based on ratings and distance from route
         var selectedPlaces = SelectBestPlaces(placesNearRoute, maxPlacesToVisit, categories);
 
         // Step 4: Create optimal route with waypoints
         // var routeWithWaypoints = await CreateOptimalRouteWithWaypoints(
-        //     startLocation, endLocation, selectedPlaces);
+        //     startLocation, endLocation, selectedPlaces, routeType);
 
         var waypoints = new List<Location> { startLocation };
         waypoints.AddRange(selectedPlaces.Select(x => x.Location)); // додаємо вибрані місця
@@ -149,8 +149,12 @@ public class DirectionService : IDirectionService
         // Step 1: Add waypoints in optimal order
         var orderedWaypoints = OptimizeWaypointOrder(start, end, places);
 
+        var allCoords = new List<Location> { start };
+        allCoords.AddRange(orderedWaypoints.Select(p => p.Location));
+        allCoords.Add(end);
+
         // Step 2: Get route with all waypoints
-        return await _mapboxService.GetRouteWithWaypointsAsync(orderedWaypoints.Select(x => x.Location).ToList(), routeType);
+        return await _mapboxService.GetRouteWithWaypointsAsync(allCoords, routeType);
     }
 
     private List<Place> OptimizeWaypointOrder(Location start, Location end, List<Place> places)

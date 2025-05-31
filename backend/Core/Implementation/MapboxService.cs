@@ -66,7 +66,7 @@ public class MapboxService : IMapboxService
             }
 
             var response = await _mapboxApi.GetDirectionsAsync(
-                routeType.ToString(),
+                routeType.ToString().ToLowerInvariant(),
                 coordinatesBuilder.ToString(),
                 "true",
                 "geojson",
