@@ -164,6 +164,9 @@ const DirectionPage = () => {
       startMarker.current?.remove();
       endMarker.current?.remove();
 
+      startMarker.current = null;
+      endMarker.current = null;
+
       setStartPoint(null);
       setEndPoint(null);
     }
