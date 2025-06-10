@@ -1,0 +1,4 @@
+﻿### GET places request
+GET {{baseAddress}}/places/nearby?lat=49.839479&lon=23.994433&category=park"
+
+###

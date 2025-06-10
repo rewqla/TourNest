@@ -1,0 +1,213 @@
+{
+  "header": {
+    "profile": "Profile",
+    "travelHistory": "Travel history",
+    "logout": "Logout",
+    "discover": "Discover",
+    "mapAndDirection": "Map & Direction",
+    "yourSpace": "Your space",
+    "account": "Account"
+  },
+  "footer": {
+    "tagline": "Less stress more feelings. Be free with us",
+    "quickLinks": "Quick Links",
+    "aboutUs": "About Us",
+    "contact": "Contact",
+    "privacyPolicy": "Privacy Policy"
+  },
+  "carousel": {
+    "title": "Discover with us"
+  },
+  "cards": {
+    "cityExploration": {
+      "title": "City Exploration",
+      "description": "Discover the hidden gems and iconic landmarks across the city. Experience the vibrant culture and rich history that make each neighborhood unique."
+    },
+    "urbanVisions": {
+      "title": "Local Artist Showcase: Urban Visions",
+      "description": "Experience the city through the eyes of its vibrant artist community. Engage with local creators and explore their masterpieces that reflect the spirit of the city."
+    },
+    "cityLights": {
+      "title": "City Lights: Nighttime Revelations",
+      "description": "See the city come alive under the twinkling city lights. Enjoy the nightlife with live music, street performances, and bustling night markets."
+    },
+    "culinaryDelights": {
+      "title": "Culinary Delights: Flavors of the City",
+      "description": "Taste diverse flavors from the city's renowned culinary scene. From street food to fine dining, savor every bite of local and international cuisines."
+    },
+    "cityRhythms": {
+      "title": "City Rhythms: Musical Fusion",
+      "description": "Catch the beat of the city's eclectic music and nightlife. Join us for unforgettable live performances and discover the sounds that define the city."
+    },
+    "cityscapes": {
+      "title": "Cityscapes: Urban Beauty",
+      "description": "Admire stunning architectural wonders and city panoramas. Explore breathtaking views from rooftops and enjoy the beauty of urban design and creativity."
+    }
+  },
+  "login": {
+    "usernameRequired": "Please input your username!",
+    "passwordRequired": "Please input your Password!",
+    "usernamePlaceholder": "Username",
+    "passwordPlaceholder": "Password",
+    "button": "Log in",
+    "noAccount": "Don't have an account?",
+    "signUpNow": "Sign up now"
+  },
+  "signin": {
+    "title": "Welcome Back",
+    "subtitle": "Please sign in to your account to continue."
+  },
+  "signup": {
+    "title": "Sign Up",
+    "subtitle": "Please fill in the form below to sign up and create an account.",
+    "fields": {
+      "fullName": "Full Name",
+      "userName": "Username",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password"
+    },
+    "errors": {
+      "fullName": "Please input your full name!",
+      "userName": "Please input your username!",
+      "email": "Please input your email!",
+      "password": "Please input your password!",
+      "confirmPassword": "Please confirm your password!"
+    },
+    "actions": {
+      "submit": "Sign Up"
+    },
+    "switch": {
+      "text": "Already have an account?",
+      "link": "Sign in now"
+    }
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "intro": "Welcome to TOURNEST. Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal data when you use our services.",
+    "section1": {
+      "title": "1. Information We Collect",
+      "items": [
+        "Personal data (such as name, email, and contact details).",
+        "Location data to improve mapping and route services.",
+        "Usage data (such as preferences and interactions with the app)."
+      ]
+    },
+    "section2": {
+      "title": "2. How We Use Your Information",
+      "items": [
+        "Provide navigation and discovery services.",
+        "Improve user experience and personalization.",
+        "Comply with legal obligations."
+      ]
+    },
+    "section3": {
+      "title": "3. Data Security",
+      "content": "We implement industry-standard security measures to protect your personal data. However, no method of data transmission is 100% secure, and we encourage users to take precautions when sharing personal information online."
+    },
+    "section4": {
+      "title": "4. Third-Party Services",
+      "content": "We may share data with third-party services for analytics. These services adhere to strict privacy standards."
+    },
+    "section5": {
+      "title": "5. Your Rights",
+      "items": [
+        "Access, update, or delete your personal information.",
+        "Opt out of marketing communications."
+      ]
+    },
+    "section6": {
+      "title": "6. Changes to This Policy",
+      "content": "We may update our Privacy Policy periodically. Any significant changes will be communicated to users."
+    },
+    "section7": {
+      "title": "7. Contact Us",
+      "content": "If you have any questions about this Privacy Policy, please contact us at:"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "intro": "Have questions or need assistance? We're here to help. Reach out via phone or email, and we’ll get back to you as soon as possible.",
+    "phoneSupportTitle": "Phone Support",
+    "emailSupportTitle": "Email Support",
+    "phoneNumber": "+123 456 7890",
+    "emailAddress": "support@tournest.com",
+    "closingTitle": "We're here for you",
+    "closingText": "Whether you need help planning your trip, navigating the app, or resolving any issues—just reach out. Our team is ready to assist you."
+  },
+  "about": {
+    "title": "About Us",
+    "intro": "Welcome to TOURNEST—your ultimate travel companion! We are passionate about helping travelers explore the world with ease, offering the best navigation, discovery, and experience-enhancing tools for your adventures.",
+    "missionTitle": "Our Mission",
+    "missionText": "At TOURNEST, we strive to make travel seamless and memorable. Whether you're looking for hidden gems, top attractions, or the best routes, our platform ensures you have everything you need to make your trip extraordinary.",
+    "valuesTitle": "Our Values",
+    "valuesIntro": "We believe in:",
+    "values": {
+      "innovation": {
+        "title": "Innovation",
+        "text": "Constantly improving travel experiences."
+      },
+      "community": {
+        "title": "Community",
+        "text": "Connecting travelers worldwide."
+      },
+      "trust": {
+        "title": "Trust",
+        "text": "Providing reliable navigation and recommendations."
+      },
+      "sustainability": {
+        "title": "Sustainability",
+        "text": "Promoting eco-friendly travel solutions."
+      }
+    },
+    "closingTitle": "Join Us on the Journey",
+    "closingText": "Whether you're an adventurer, a planner, or a dreamer, TOURNEST is here to support your travel aspirations. Explore, discover, and experience the world like never before."
+  },
+  "discover": {
+    "title": "Change History",
+    "description": "Here you can view the latest updates, improvements, and changes we've made to the TOURNEST platform.",
+    "update1": {
+      "title": "Added 'Contact Us' Page",
+      "content": "You can now easily reach our support team via the new contact page with phone and email."
+    },
+    "update2": {
+      "title": "Improved Route Interface",
+      "content": "We've optimized the route UI for a better user experience"
+    },
+    "update3": {
+      "title": "Ukrainian Localization Added",
+      "content": "TOURNEST is now available in Ukrainian!!!"
+    },
+    "update4": {
+      "title": "Added Support for Route Type Selection",
+      "content": "You can now choose between driving, walking, or cycling when generating a route. This gives you more flexibility depending on how you plan to travel."
+    }
+  },
+  "route": {
+    "routeConfiguration": "Route Configuration",
+    "startPoint": "Start Point:",
+    "endPoint": "End Point:",
+    "clickToSelect": "Click on the map to select",
+    "setStart": "Set Start",
+    "setEnd": "Set End",
+    "categoriesToVisit": "Categories to Visit:",
+    "routeType": "Route Type:",
+    "estimatedDistance": "Estimated Distance:",
+    "estimatedTime": "Estimated Time:",
+    "generateRoute": "Generate Route",
+    "clearMap": "Clear Map",
+    "car": "Car",
+    "walking": "On Foot",
+    "cycling": "Cycling",
+    "restaurant": "Restaurants",
+    "cafe": "Cafes",
+    "atm": "ATM",
+    "theatre": "Theatre",
+    "hotel": "Hotel",
+    "museum": "Museums",
+    "park": "Parks",
+    "shopping": "Shopping",
+    "min": "min",
+    "km": "km"
+  }
+}
